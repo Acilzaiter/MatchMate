@@ -1,0 +1,67 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block content %}
+
+{% block title %}
+<div class="container">
+    <div class="vertical-line"></div>
+    <div class="text-container">
+        <div class="general">Modification</div>
+        <div class="information">of the information about your club</div>
+    </div>
+</div>
+<br>
+<br>
+{% endblock %}
+
+{{ include('club/_form.html.twig', {'button_label': 'Update'}) }}
+
+{{ include('club/_delete_form.html.twig') }}
+
+<style>
+    .btn-back {
+        padding: 5px 10px; /* Adjust the padding to change the button size */
+    }
+
+    .btn-back img {
+        width: 20px; /* Adjust the width of the image */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 5px; /* Add some spacing between the image and text */
+    }
+</style>
+
+<style>
+    .container {
+        display: flex;
+        align-items: center;
+    }
+
+    .vertical-line {
+        border-left: 3px solid black; /* Adjust the width and color as needed */
+        height: 35px; /* Adjust the height as needed */
+        margin-right: 10px; /* Adjust the spacing between the line and the text */
+        margin-top: -2px; /* Adjust to move the line a bit above the text */
+    }
+
+    .text-container {
+        display: flex;
+        align-items: center; /* Center the text horizontally */
+    }
+
+    .general {
+        font-size: 24px; /* Adjust the font size of "General" */
+        font-weight: bold; /* Make "General" bold */
+        margin-right: 13px; /* Add some space between "General" and "Information" */
+    }
+
+    .information {
+        font-size: 21px; /* Adjust the font size of "Information" */
+    }
+</style>
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('formcss/formstyle.css') }}">
+{% endblock %}
+
+
+{% endblock %}

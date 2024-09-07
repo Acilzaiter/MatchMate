@@ -1,0 +1,331 @@
+{# home.html.twig #}
+    
+    {% block stylesheets %}
+    <title>MatchMate</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Images/Ball.ico') }}">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-RQpyjCuMCqD9DjgSTHPKKrLkqQObcvHq6PyFCjBx81r0QPlX0fC+ogj7MEl64+8H" crossorigin="anonymous">
+    <style>
+    /* Custom styles for sticky navbar */
+    .content {
+        padding-top: 100px; /* Adjust the value based on the height of your navbar */
+    }
+    .navbar {
+        position: fixed;
+        width: 100%;
+        height: 80px;
+        top: 0;
+        z-index: 1000;
+        transition: top 0.3s;
+        background-color: #ffffff;
+        border-bottom: 1px solid #cccccc;
+    }
+
+    .navbar-logo {
+        height: 100%;
+    }
+
+    .navbar-logo img {
+        height: 100%;
+        width: auto;
+    }
+
+    .navbar-items {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 20px;
+    }
+
+    .navbar-items li {
+        margin-left: 20px;
+    }
+
+    .navbar-items img {
+        margin-right: 8px;
+        width: 25px;
+        height: 25px;
+    }
+
+    /* Responsive navbar styles */
+    @media (max-width: 768px) {
+        .navbar-items {
+            display: none;
+            position: absolute;
+            top: 60px;
+            background-color: #f9f9f9;
+            width: 100%;
+            text-align: center;
+        }
+
+        .navbar-items.show {
+            display: block;
+        }
+
+        .navbar-icons {
+            display: none;
+        }
+
+        .navbar .navbar-logo {
+            text-align: center;
+            width: 100%;
+        }
+
+        .navbar .navbar-logo img {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    }
+</style>
+    {% endblock %}
+            {{ encore_entry_link_tags('app') }}
+</head>
+<body>
+    {% block body %}
+    <div id="popup-overlay" class="popup-overlay">
+      <div class="popup-content">
+          <p>Please login or register to access this feature.</p>
+          <button onclick="closePopup()">Close</button>
+      </div>
+  </div>
+    <title>MatchMate</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Images/Ball.ico') }}">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}">
+      <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="{{ asset('Images/logo.png') }}" alt="Logo">
+    </div>
+    <ul class="navbar-items">
+       <li>
+            <a href="/home">
+                <img src="{{ asset('Images/whitehome.png') }}" alt="Home Icon"> <!-- Change the path as needed -->
+                Home
+            </a>
+        </li>
+      {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <li>
+                <a href="/calendar">
+                    <img src="{{ asset('Images/whitecalendar.png') }}" alt="Calendar Icon"> <!-- Change the path as needed -->
+                    Booking Calendar
+                </a>
+            </li>
+        <li>
+                <a href="/feedback/new">
+                    <img src="{{ asset('Images/whitefeedback.png') }}" alt="Feedback Icon"> <!-- Change the path as needed -->
+                    Give Feedback
+                </a>
+            </li>
+      {% else %}
+          <li>
+                <a href="#" onclick="showAuthPopup()">
+                    <img src="{{ asset('Images/whitecalendar.png') }}" alt="Calendar Icon"> <!-- Change the path as needed -->
+                    Booking Calendar
+                </a>
+          </li>
+          <li>
+                <a href="#" onclick="showAuthPopup()">
+                    <img src="{{ asset('Images/whitefeedback.png') }}" alt="Feedback Icon"> <!-- Change the path as needed -->
+                    Give Feedback
+                </a>
+          </li>
+      {% endif %}
+    </ul>
+
+      {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="btn-group" role="group" aria-label="User options">
+            <a  class="btn btn-outline-primary mr-2">{{ app.user.username }}</a>
+            <a  class="btn btn-outline-primary mr-2" href="{{ path('app_user_profile_player') }}">View Profile</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-outline-primary">Logout</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_dashboard') }}" class="btn btn-outline-primary">Dashboard</a>
+            {% endif %}
+        </div>
+      {% else %}
+        <li><a href="{{ path('app_login') }}" class="mr-2">Login</a></li>
+        <li><a href="{{ path('app_register') }}">Register</a></li>
+      {% endif %}
+      </nav>
+      <script>
+    function showAuthPopup() {
+        document.getElementById("popup-overlay").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("popup-overlay").style.display = "none";
+    }
+    </script>
+   <style>
+   .cart-icon-small {
+      width: 40px;
+      height: 40px;
+    }
+    /* Popup modal styles */
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .popup-message {
+        margin-bottom: 20px;
+    }
+
+    .popup-button {
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .popup-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+  {% block m %}
+    
+    <div class="image-container">
+        <img src="{{ asset('Images/background.png') }}"> 
+
+        <div class="text-overlay">
+            <span>SEARCH BOOK</span>
+            <span>& HAVE FUN</span>
+        </div>
+    
+    </div>
+
+    <div class="additional-div">
+        <div class="how-it-works">
+            <span>How it works</span>
+        </div>
+
+        <div class="horizontal-container">
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step1.png') }}" alt="Image 1">
+                </button>  
+              <div class="vertical-text">
+                <p class="title">Find a Listing</p>
+                <p>Find a space to practice sport and </p>
+                <p>leisure activities</p>
+              </div>
+            </div>
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step2.png') }}" alt="Image 1">
+                </button> 
+              <div class="vertical-text">
+                <p class="title">Set the Date</p>
+                <p>Book Online</p>
+              </div>
+            </div>
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step3.png') }}" alt="Image 1">
+                </button> 
+              <div class="vertical-text">
+                <p class="title">Move in !</p>
+                <p>Practicing sport and accessing</p> 
+                <p>leisure activities</p>
+              </div>
+            </div>
+          </div>
+    </div>
+   {% endblock %}
+  {% block t %}
+          
+  {% endblock %}
+
+     {% block partners %}  
+    <div class="partners-section">
+      <div class="horizontal-div1">
+        
+          <img src="{{ asset('Images/tel.png') }}" alt="Partner Logo">
+          <div class="vertical-div1">
+              <h2>Manage your schedule from your Mobile</h2>
+              <p>Download the app to manage your schedule , keep track of your bookings and stay on track with the progress</p>
+              <p>Get the app</p>
+              <img src="images/appstore.png" alt="Image 1">
+              
+          </div>
+      </div>
+  </div>
+  </div>
+  {% endblock %}
+  
+{% block footer %}
+
+  <footer class="footer">
+    <div class="footer-section">
+        <div class="logo-and-paragraph">
+            <img src="{{ asset('Images/logo.png') }}" alt="Footer Logo">
+            <p>Copyrights MiCasa Homes and Properties</p>
+            <p>All rights reserved</p>
+        </div>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Company</h3>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Support</h3>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping Information</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+        </ul>
+    </div>
+</footer>
+{% endblock %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Add sticky class to navbar on scroll
+      var prevScrollpos = window.pageYOffset;
+      window.onscroll = function() {
+        var currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+          document.getElementById("navbar").style.top = "0";
+        } else {
+          document.getElementById("navbar").style.top = "-100px"; // Adjust this value as needed
+        }
+        prevScrollpos = currentScrollPos;
+      };
+
+      // Toggle navbar items for responsive design
+      $(".navbar-logo").click(function() {
+        $("#navbar-items").toggleClass("show");
+      });
+    });
+  </script>
+  {% endblock %}
+    {% endblock %}
+    
+ 
+</body>

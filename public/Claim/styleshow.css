@@ -1,0 +1,46 @@
+/* Styles pour l'interface Show Claim */
+.show-claim-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa; /* Couleur de fond */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+.show-claim-title {
+    font-size: 24px; /* Taille de la police du titre */
+    font-weight: bold; /* Police en gras */
+    margin-bottom: 20px; /* Marge en bas */
+    color: #343a40; /* Couleur du texte */
+}
+
+.claim-info {
+    margin-bottom: 10px; /* Marge en bas */
+}
+
+.claim-info-label {
+    font-weight: bold; /* Police en gras */
+    margin-bottom: 5px; /* Marge en bas */
+    color: #343a40; /* Couleur du texte */
+}
+
+.claim-info-value {
+    color: #6c757d; /* Couleur du texte */
+}
+
+.back-to-list-link {
+    color: #007bff; /* Couleur du texte */
+    text-decoration: none; /* Suppression du soulignement */
+    margin-top: 20px; /* Marge en haut */
+    display: inline-block; /* Affichage en ligne */
+    border: 1px solid #007bff; /* Bordure */
+    padding: 10px 20px; /* Rembourrage */
+    border-radius: 5px; /* Bordure arrondie */
+    transition: background-color 0.3s, color 0.3s; /* Transition fluide */
+}
+
+.back-to-list-link:hover {
+    background-color: #007bff; /* Couleur de fond au survol */
+    color: #fff; /* Couleur du texte au survol */
+}

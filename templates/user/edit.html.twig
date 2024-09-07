@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+         header {
+            position : fixed ; 
+            z-index : 1000;
+            background-color: white;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
+        }
+          .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            margin: 0;
+            margin-left:10px;
+            font-size: 24px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            color: #333;
+        }
+
+        .logo .green {
+            color: #28b463;
+        }
+
+        .football-icon {
+            font-size: 32px;
+            color: #28b463;
+            margin-right: 10px;
+        }
+
+
+        /* content css */
+       .container{
+        margin-top:350px;
+       
+       }
+       
+    </style>
+</head>
+<body>
+       <header style="position: fixed; width: 100%; z-index: 1000; padding: 30px 20px; height: 20px; top:0;">
+        <div class="logo">
+            <img src="{{ asset('Images/Ball.png') }}" style="width: 40px; height: 40px;">
+            <h1><span class="green">M</span>atch<span class="green">M</span>ate</h1>
+        </div>
+       
+    </header>
+    <div class="container mt-5">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <h2>Edit Profile</h2>
+                <form action="{{ path('app_user_edit', {'id': user.id}) }}" method="post" enctype="multipart/form-data">
+                    {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_label(form.firstname) }}
+                        {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.lastname) }}
+                        {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.phonenumber) }}
+                        {{ form_widget(form.phonenumber, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.birthdate) }}
+                        {{ form_widget(form.birthdate, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.location) }}
+                        {{ form_widget(form.location, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.image) }}
+                        {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    {{ form_end(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

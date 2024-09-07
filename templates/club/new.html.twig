@@ -1,0 +1,95 @@
+
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block content %}
+
+{% block title %}
+        <!-- Flashy depends on jQuery -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <!-- Load Flashy default JavaScript -->
+        <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+        <!-- Include Flashy default partial -->
+        {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+        <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+        
+    <div class="container">
+        <div class="vertical-line"></div>
+        <div class="text-container">
+            <div class="general">General</div>
+            <div class="information">Information about your club</div>
+        </div>
+    </div>
+    <br>
+    <br>
+ <style>
+   /* Override default Flashy CSS to position notifications in the center of the page */
+            .flashy {
+                position: fixed;
+                top: 30%;
+                left: 93%;
+                transform: translate(-50%, -100%);
+                z-index: 1000; /* Ensure it's above other elements */
+                width: 150px; /* Set the width of the notification */
+                height: 70px;
+                padding: 10px; /* Adjust padding as needed */
+                font-size: 14px; /* Adjust font size as needed */
+                border-radius: 5px; /* Add border radius for rounded corners */
+            }
+    .container {
+            display: flex;
+            align-items: center;
+        }
+
+        .vertical-line {
+            border-left: 3px solid black; /* Adjust the width and color as needed */
+            height: 35px; /* Adjust the height as needed */
+            margin-right: 10px; /* Adjust the spacing between the line and the text */
+            margin-top: -2px; /* Adjust to move the line a bit above the text */
+        }
+
+        .text-container {
+            display: flex;
+            align-items: center; /* Center the text horizontally */
+        }
+
+        .general {
+            font-size: 24px; /* Adjust the font size of "General" */
+            font-weight: bold; /* Make "General" bold */
+            margin-right: 13px; /* Add some space between "General" and "Information" */
+        }
+
+        .information {
+            font-size: 21px; /* Adjust the font size of "Information" */
+        }
+    </style>
+ {% endblock %}
+
+
+    {{ include('club/_form.html.twig') }}
+   <style>
+    .btn-back {
+        padding: 5px 10px; /* Adjust the padding to change the button size */
+    }
+
+    .btn-back img {
+        width: 20px; /* Adjust the width of the image */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 5px; /* Add some spacing between the image and text */
+    }
+</style>
+
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('formcss/formstyle.css') }}">
+{% endblock %}
+
+
+
+
+
+
+    
+
+{% endblock %}
+

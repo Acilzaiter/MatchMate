@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Receipt</title>
+    <style>
+        /* Add any custom styling for your PDF receipt here */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #5cc9df; /* Turquoise color */
+            font-size: 36px;
+            margin: 0;
+        }
+        .user {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .user h2 {
+            color: #5cc9df; /* Turquoise color */
+            font-size: 24px;
+            margin-top: 0;
+        }
+        .details {
+            margin-bottom: 30px;
+        }
+        .details h2 {
+            color: #5cc9df; /* Turquoise color */
+            font-size: 24px;
+            margin-top: 0;
+        }
+        .details p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Subscription Receipt</h1>
+        </div>
+        <div class="user">
+            <h2>User Details</h2>
+            <p><strong>First Name:</strong> {{ subscription.iduser.firstName }}</p>
+            <p><strong>Last Name:</strong> {{ subscription.iduser.lastName }}</p>           
+            <p><strong>Email:</strong> {{ subscription.iduser.email }}</p>
+            <p><strong>Phone Number:</strong> +216 {{ subscription.iduser.phonenumber }}</p>
+            <!-- Add more user details as needed -->
+        </div>
+        <div class="details">
+            <h2>Subscription Details</h2>
+            <p><strong>Subscription:</strong> {{ subscription.idoffer.name }}</p>
+            <p><strong>Price:</strong> {{ subscription.idoffer.price }} $ </p>
+            <p><strong>Description:</strong> {{ subscription.idoffer.text }}</p>
+            <p><strong>Start Date:</strong> {{ subscription.startDate|date('Y-m-d') }}</p>
+            <p><strong>End Date:</strong> {{ subscription.endDate|date('Y-m-d') }}</p>
+            <!-- Add more subscription details as needed -->
+        </div>
+    </div>
+</body>
+</html>

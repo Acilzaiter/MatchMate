@@ -1,0 +1,51 @@
+<!-- receipt.html.twig -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #3788D8;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #555;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #333;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Payment Receipt</h1>
+    <p>Thank you for choosing Matchate!</p>
+    <h2>Reservation Details</h2>
+    <p>Reservation date: {{ reservation.getDate()|date('Y-m-d') }}</p>
+    <p>Player: {{ reservation.getIdplayer().getFirstname() }} {{ reservation.getIdplayer().getLastname() }}</p>
+    <p>Reservation Timing: {{ reservation.getStarttime()|date('H:i') }} - {{ reservation.getEndtime()|date('H:i') }}</p>
+    <p>Stadium: {{ reservation.getRefstadium().getReference() }}</p>
+    <h2>Payment Details</h2>
+    <p>Amount: $ {{ reservation.getRefstadium().getPrice() }}</p>
+    <!-- Add more payment details here as needed -->
+    <h2>Messages</h2>
+    <p>Feel free to contact us if you have any questions.</p>
+</body>
+</html>

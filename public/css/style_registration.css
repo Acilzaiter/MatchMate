@@ -1,0 +1,100 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #fff; }
+
+p {
+  color: #b3b3b3;
+  font-weight: 300; }
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Roboto", sans-serif; }
+
+a {
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease; }
+  a:hover {
+    text-decoration: none !important; }
+
+.content {
+  padding: 5rem 0; }
+
+h2 {
+  font-size: 20px; }
+
+
+/* Adjustments for the image */
+.bg {
+  background-image: url('Images/loginImg.png');
+  background-size: cover;
+  background-position: center;
+  width: 50%; /* Adjust as needed */
+  height: 100vh; /* Ensure the image covers the entire height */
+  float: left; /* Float the image to the left */
+}
+
+/* Adjustments for the content */
+.contents {
+  width: 50%; /* Adjust as needed */
+  height: 100vh; /* Ensure the content covers the entire height */
+  padding: 10px; /* Add padding for spacing */
+  box-sizing: border-box; /* Include padding in the total width/height */
+}
+
+/* Adjustments for the form */
+.form-group {
+  margin-bottom: 20px; /* Add spacing between form elements */
+}
+
+/* Adjustments for the font size */
+.contents h3,
+.contents p,
+.form-control,
+.control__indicator {
+  font-size: 14px; /* Adjust the font size as needed */
+}
+
+/* Adjustments for input visibility */
+.form-control {
+  color: #000; /* Set the text color to black for visibility */
+}
+
+/* Adjustments to prevent scrolling */
+body, html {
+  margin: 0;
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.control input:checked ~ .control__indicator:after {
+  display: block;
+  color: #fff; }
+
+.control--checkbox .control__indicator:after {
+  top: 50%;
+  left: 50%;
+  margin-top: -1px;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b; }
+
+.control--checkbox input:disabled:checked ~ .control__indicator {
+  background-color: #7e0cf5;
+  opacity: .2; }
+
+ 

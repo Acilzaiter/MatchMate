@@ -1,0 +1,118 @@
+{% extends 'dashboard/dashboard.html.twig'%} 
+
+{% block content %}
+<style>
+/* Ensure content starts from the right of the sidebar */
+.content > * {
+    margin-left: auto;
+}
+.content-centered {
+    margin-left: 280px;
+    width: 70%;
+    margin-top: 150px;
+}
+
+/* Styling for the password container */
+.password-container {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    margin: 0 auto;
+    font-family: 'Times New Roman', serif;
+}
+
+/* Input field customization */
+.custom-input {
+    width: 100%;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Styling each form item */
+.item {
+    margin: 20px 0px;
+    font-size: 18px;
+    color: #495057;
+    font-weight: 600;
+}
+
+/* Header styling */
+.user-name {
+    font-size: 26px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 30px;
+}
+
+/* Button styling */
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Error message styling */
+span {
+    font-size: 14px;
+    color: #dc3545;
+    font-weight: bold;
+}
+</style>
+<body>
+    <section>
+    <br><br><br><br>
+        <div class="password-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="user-name">Change Your Password</h4>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="user-info">
+                            
+                            <div class="summary">
+                                <div class="row">
+                                    {{ form_start(form) }}
+                                    <div class="col-md-10">
+                                        <div class="item">Actual password :</div>
+                                    </div>
+                                    <div class="col-md-15">
+                                        {{ form_widget(form.oldPassword, {'attr': {'class': 'form-control custom-input'}}) }}
+                                        <b><span style="color: red;">{{ form_errors(form.oldPassword) }}</span></b>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="item">New password:</div>
+                                    </div>
+                                    <div class="col-md-15">
+                                        {{ form_widget(form.newPassword, {'attr': {'class': 'form-control custom-input'}}) }}
+                                        <b><span style="color: red;">{{ form_errors(form.newPassword) }}</span></b>
+                                    </div>
+                                    <div class="col-md-12 text-right mt-3">
+                                        <button type="submit" class="btn btn-success btn-lg">Change</button>
+                                    </div>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body
+{% endblock %}
+

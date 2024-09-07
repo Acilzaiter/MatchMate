@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+{% block navbars %}
+<div class="px-14 py-2 bg-white border-b border-gray-200 border-solid max-md:px-5">
+  <div class="flex gap-5 max-md:flex-col max-md:gap-0">
+    <div class="flex flex-col w-[16%] max-md:ml-0 max-md:w-full">
+      <div class="flex grow gap-5 text-xl font-bold text-center text-black max-md:mt-5">
+        <img
+          loading="lazy"
+          src="{{ asset('images/Logo.png') }}"
+          srcset="{{ asset('images/Logo.png') }}"
+          class="shrink-0 aspect-[0.89] w-[65px]"
+          alt="Logo"
+        />
+        <div class="flex-auto my-auto whitespace-nowrap">
+          <span class="text-emerald-500">M</span><span class="text-black">atch</span><span class="text-emerald-500">M</span><span class="text-black">ate</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col ml-5 w-[84%] max-md:ml-0 max-md:w-full">
+      <div class="flex gap-5 justify-between self-stretch my-auto w-full max-md:flex-wrap max-md:mt-5 max-md:max-w-full">
+        <div class="flex gap-2.5 my-auto text-lg font-medium tracking-wide whitespace-nowrap text-neutral-400">
+          <div class="flex items-center bg-white rounded-md p-2">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c81d6197ef4de1517817d0e3c94a019653776497c9be6cb3fed13818d6de7b6c?"
+              class="shrink-0 w-6 h-6 mr-2"
+              alt="Search Icon"
+            />
+            <input
+              type="text"
+              placeholder="Search..."
+              class="outline-none border-none bg-transparent flex-grow text-sm"
+            />
+          </div>
+        </div>
+        <div class="flex justify-center items-center px-2 rounded-2xl bg-gray-200 bg-opacity-40 h-[35px] w-[35px]">
+          <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/84fad3e10bbb2dd48c4301b9ec7dfcd718cd877e26dae05161edb0440d854edf?"
+            class="aspect-square w-6"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+<div class="flex">
+
+  {% block sidebar %}
+
+  <div class="flex flex-col pt-6 pb-20 font-medium bg-white border-r border-gray-200 border-solid shadow-2xl max-w-[273px]">
+  <div class="flex flex-col px-7 w-full">
+    <div class="flex gap-5 justify-between w-full">
+      <div class="flex gap-3">
+        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/cf78f1c5468926b0a75bc9b0edf13a18ebd5e32fec3cd163f7fc58205a85b509?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 rounded-full aspect-square w-[52px]" />
+        <div class="flex flex-col my-auto">
+          <div class="text-lg tracking-normal text-black">Gavano</div>
+          <div class="mt-2.5 text-sm tracking-normal text-neutral-400">
+            HR Manager
+          </div>
+        </div>
+      </div>
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/9bd92a34cc2c4dc4cfa34a18f77820c29b67dbd844ce64bd65b7c7791dae3da0?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 my-auto aspect-square w-[31px]" />
+    </div>
+    
+    <div class="flex gap-5 justify-between self-start mt-14 ml-3 text-xl tracking-normal text-black whitespace-nowrap">
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/6d296999b84eb63b56c725f7aef7b1ac6d7defb87648aca684587eef2581fa34?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 w-7 aspect-square" />
+      <div class="my-auto">Dashboard</div>
+    </div>
+  </div>
+  <div class="flex gap-5 items-center py-3 pr-5 mt-8 text-xl tracking-normal text-emerald-500 whitespace-nowrap bg-stone-50 club-item">
+    <div class="shrink-0 self-stretch w-1.5 h-10 bg-emerald-500 rounded-none shadow-md"></div>
+    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/e0d4c4caeb1f41aef2b71f6b3e4a5558b316e0644d3ae916fc4f851a7d33da18?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 self-stretch my-auto ml-3 aspect-square w-[29px]" />
+    <div class="flex-auto self-stretch my-auto ml-3">Club</div>
+  </div>
+  <div class="flex flex-col items-start pr-20 pl-9 mt-6 w-full text-xl tracking-normal whitespace-nowrap">
+
+    <div class="flex gap-5 justify-between text-black">
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/bf3d9ec59407d531ae1f8d1001386901765119dc29001ad5a326539ab9ba1222?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 w-7 aspect-square" />
+      <div class="my-auto">Stadium</div>
+    </div>
+    <div class="flex gap-5 justify-between mt-10 text-neutral-950 reservation-item">
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/252f2bbd26b8fe2540f824686723df2af0138fbe613788235f8bb5c914d4e978?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 aspect-square w-[29px]" />
+      <div class="my-auto">Reservation</div>
+    </div>
+    <div class="flex gap-5 justify-between mt-10 text-neutral-950 event-item">
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/ecc9fd484e0c5076fb72df93d27aa93136265589bc4b12941ebd3c5de7238e7d?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 aspect-square w-[29px]" />
+      <div class="my-auto">Event</div>
+    </div>
+  </div>
+  <div class="mt-10 w-full border border-dashed bg-neutral-200 border-neutral-200 min-h-[1px]"></div>
+  <div class="flex flex-col mt-12 ml-10 max-w-full text-xl tracking-normal whitespace-nowrap text-neutral-950 w-[105px]">
+    <div class="flex gap-5 justify-between">
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/eef1e3307c86506b81f82ac1dc987b4d5c08f1efd2a74f347ef82b8eab30527e?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 aspect-square w-[27px]" />
+      <div class="my-auto">Profile</div>
+    </div>
+    <div class="flex gap-5 justify-between mt-12">
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/88f578541dbaa9d5389786e6a6baa193e71a7238c0cce5edf037af8f08da1c98?apiKey=758df760c52648148f4ca37efa678613&" class="shrink-0 aspect-square w-[27px]" />
+      <div class="my-auto">Setting</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+  {% endblock %}
+  {% endblock %}

@@ -1,0 +1,714 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+          #intro-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #000; /* Change text color */
+            font-family: 'Pacifico', cursive;
+            font-size: 72px; /* Increase font size for MatchMate */
+            opacity: 0; /* Initially hidden */
+            animation: fadeIn 1s ease forwards; /* Animation for fade-in */
+        }
+
+        /* Keyframes for fade-in animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Add keyframes for letter drop animation */
+        @keyframes dropIn {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Additional styles for tagline */
+        .tagline {
+            font-size: 24px; /* Decrease font size for the tagline */
+            margin-top: 20px; /* Add some space between MatchMate and the tagline */
+        }
+
+        /* Styles for the animated points */
+        .animated-points {
+            display: inline-block;
+            font-size: 48px;
+        }
+
+        .point {
+            display: inline-block;
+            animation: moveUpDown 2s infinite ease-in-out alternate; /* Animation for moving up and down */
+        }
+
+        /* Keyframes for moving up and down animation */
+        @keyframes moveUpDown {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* Staggering animation delays for each point */
+        .point:nth-child(2) {
+            animation-delay: 0.5s; /* Delay the animation of the second point by 0.5 seconds */
+        }
+
+        .point:nth-child(3) {
+            animation-delay: 1s; /* Delay the animation of the third point by 1 second */
+        }
+        /* Your existing CSS styles below */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f0f0;
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+        }
+
+        header {
+            position: fixed;
+            width:100%;
+            background-color: #fff;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .club-buttons {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            z-index: 1;
+        }
+/* Adjust margin of other <li> elements when hovering over "Club" */
+   /* Adjust margin of other <li> elements when hovering over any <li> in the sidebar */
+.sidebar li:hover ~ li {
+    margin-top: 35px; /* Adjust the margin as needed */
+}
+
+    
+
+.sidebar {
+    width: 220px; /* Adjust width as needed */
+    height: calc(100vh - 100px); /* Calculate height to fit the viewport */
+    padding: 10px; /* Reduce padding */
+    font-family: 'Segoe UI', sans-serif;
+    position: fixed;
+    top: 100px; /* Adjust top position to accommodate the header */
+    overflow-y: auto;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar ul a {
+    display: block;
+    padding: 20px;
+    margin: -1000px ;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #333; /* Text color */
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif; /* Specify the desired font */
+}
+
+.sidebar ul a:hover {
+    background-color: #28b463; /* Background color on hover */
+    color: #fff; /* Text color on hover */
+}
+
+
+.sidebar a {
+    display: block;
+    padding: 10px 15px; /* Reduce padding */
+    margin: 5px 0; /* Reduce margin */
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #333; /* Text color */
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background-color: #28b463; /* Background color on hover */
+    color: #fff; /* Text color on hover */
+}
+.sidebar a.active {
+    background-color: #28b463;
+    color: #fff;
+}
+
+.sidebar-divider {
+    border-top: 1px solid #ccc; /* Change color and thickness as needed */
+    margin: 10px 0; /* Reduce spacing above and below the line */
+}
+       
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            margin: 0;
+            margin-left:10px;
+            font-size: 24px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            color: #333;
+        }
+
+        .logo .green {
+            color: #28b463;
+        }
+
+        .football-icon {
+            font-size: 32px;
+            color: #28b463;
+            margin-right: 10px;
+        }
+
+        
+
+        .search-field input::placeholder {
+            color: #bbb;
+        }
+
+        
+
+/* Ensure content starts from the right of the sidebar */
+.content {
+    margin-top: 70px;
+    
+    }
+
+.row {
+    margin-bottom : 10px ;  
+}
+.content button {
+    margin-top : 30px ;
+    margin-left:290px;
+}
+
+
+
+        .dark-mode-toggle {
+            background-color: transparent; /* Remove background color */
+            color: #28b463; /* Set text color */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: color 0.3s ease; /* Add transition for color */
+        }
+        
+        .dark-mode-toggle:hover {
+            color: #218838; /* Change text color on hover */
+        }
+        
+
+        .sidebar {
+            width: 180px;
+            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            position: fixed;
+            top: 85px;
+            bottom: 0;
+            overflow-y: auto;
+            background-color: #fff;
+            color: #333;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+       
+
+       .profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px; /* Reduce margin */
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  
+    margin-bottom: 5px; /* Reduce margin */
+   
+    background-size: cover;
+}
+
+.profile-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 3px; /* Reduce margin */
+}
+
+.profile-profession {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px; /* Reduce margin */
+}
+
+        
+
+
+        #intro-animation {
+            position: fixed;
+            top: 50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #000; /* Change text color */
+            font-family: 'Roboto', sans-serif;
+            font-size: 48px;
+            opacity: 0; /* Initially hidden */
+            animation: fadeIn 1s ease forwards; /* Animation for fade-in */
+        }
+        
+        /* Keyframes for fade-in animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        /* Add keyframes for letter drop animation */
+        @keyframes dropIn {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Style for the animated text */
+        .animated-text {
+            display: inline-block;
+        }
+        
+        /* Style for the animated letter */
+        .animated-letter {
+            display: inline-block;
+            opacity: 0;
+        }
+        
+        /* Style for the tagline */
+        .tagline {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        /* Style for the horizontal line */
+.sidebar-divider {
+    border-top: 1px solid #ccc; /* Change color and thickness as needed */
+    margin: 15px 0; /* Adjust spacing above and below the line */
+}
+
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #000;
+            color: #fff;
+        }
+
+        body.dark-mode header,
+        body.dark-mode .sidebar {
+            background-color: #222;
+            color: #fff;
+        }
+
+        body.dark-mode .search-field {
+            background-color: #222; /* Change background color of search field to dark */
+            border-color: #28b463; /* Adjust border color of search field */
+        }
+
+        body.dark-mode .search-field input {
+            color: #fff; /* Change text color of input field */
+        }
+
+        body.dark-mode .logo h1 {
+            color: #28b463; /* Set text color of h1 to green */
+        }
+
+        body.dark-mode .logo h1 .green {
+            color: #fff; /* Set color of the 'M's to white */
+        }
+
+        body.dark-mode .sidebar ul {
+            background-color: #222; /* Change background color of ul to dark */
+        }
+
+        body.dark-mode .sidebar li {
+            color: #fff; /* Change text color of li items to white */
+        }
+
+        body.dark-mode .sidebar li:hover,
+        body.dark-mode .sidebar li.active {
+            background-color: #28b463;
+            color: #fff;
+        }
+
+        body.dark-mode .sidebar li.active i {
+            color: #fff;
+        }
+        /* Add transition for background color and color */
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Add transition for background color */
+        header, .sidebar, .sidebar li, .sidebar li.active {
+            transition: background-color 0.3s ease;
+        }
+
+        /* Add transition for color */
+        .logo h1, .sidebar li, .dark-mode-toggle {
+            transition: color 0.3s ease;
+        }
+        .search-field {
+            background-color: #fff;
+            border: none; /* Remove the border */
+            padding: 10px 20px;
+            color: #333;
+            width: 300px; /* Adjust width as needed */
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+        }
+
+        .search-field input {
+            border: none;
+            background: none;
+            outline: none;
+            flex: 1; /* Allow input to take remaining space */
+            padding: 5px;
+            font-size: 16px; /* Adjust font size */
+            border-bottom: 2px solid #28b463; /* Add bottom border for the line effect */
+        }
+
+        .search-field input::placeholder {
+            color: #aaa; /* Lighten placeholder text color */
+        }
+
+        .search-field button {
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            color: #28b463; /* Match icon color */
+            font-size: 18px; /* Adjust icon size */
+            transition: color 0.3s ease; /* Add transition for icon color */
+        }
+
+        .search-field button:hover {
+            color: #218838; /* Change icon color on hover */
+        }
+        body.dark-mode .sidebar ul a {
+    color: #fff; /* Set text color to white */
+}
+
+        .sidebar ul a {
+    display: block;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #333; /* Text color */
+    text-decoration: none;
+}
+
+.sidebar ul a:hover {
+    background-color: #28b463; /* Background color on hover */
+    color: #fff; /* Text color on hover */
+}
+
+.sidebar ul a i {
+    margin-right: 10px;
+}
+
+/* Add a special style for the "Home" link */
+.sidebar ul a.home {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.home:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.Dashboard {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.Dashboard:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.club {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.club:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.Stadium {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.Stadium:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.Tournaments {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.Tournaments:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.Calendar {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.Calendar:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.Profile {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.Profile:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.Setting {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.Setting:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+.sidebar ul a.Logout {
+    font-weight: bold; /* Make the font bold */
+    color: #28b463; /* Text color for the home link */
+}
+
+.sidebar ul a.Logout:hover {
+    background-color: transparent; /* Remove background color on hover */
+    color: #28b463; /* Text color on hover */
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- Introductory animation -->
+  
+    <header>
+        <div class="logo">
+            <img src="{{ asset('Images/Ball.png') }}">
+            <h1><span class="green">M</span>atch<span class="green">M</span>ate</h1>
+        </div>
+        
+
+        <div class="search-field">
+            <input type="text" placeholder="Search...">
+            <i class="fas fa-search"></i>
+        </div>
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+        
+    </header>
+    
+    <!-- display  the current user infos  -->
+    <div class="sidebar " >
+        <div class="profile">
+        
+              <img class="profile-pic" src="{{ asset('/userImages/' ~ app.user.image) }}" alt="usr pic">
+             <div class="profile-name">{{ app.user.firstName ~ ' ' ~ app.user.lastName }}</div>
+                <div class="profile-profession">{{ app.user.role }}</div>
+    </div>
+
+        <ul>
+
+            <a href="{{ path('app_dashboard') }}"><i class="fas fa-home"></i> Home</a>
+            <a href="{{ path('dashUsers') }}">
+                  <i class="fas fa-user"></i>  Users
+               
+            </a>
+           
+
+           
+            
+            <hr> <!-- Add horizontal line with class for styling -->
+            <a href="{{ path('app_user_profile') }}"><i class="fas fa-user"></i> Profile</a>
+            <a href="#"><i class="fas fa-cog"></i> Setting</a>
+            <a href="{{ path('app_logout') }}"><i class="fas fa-door-open"></i> Logout</a>
+        </ul>
+    </div>
+    
+    <!-- **************************************Middle content***************************  -->
+  <div class="content">
+    {% block content %}
+       <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <h2>Edit User Profile</h2>
+               
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ asset('userImages/' ~ user.image) }}" alt="User Image" class="img-thumbnail">
+                    </div>
+                    <div class="col-md-8">
+                        <form action="{{ path('app_users_edit', {'id': user.id}) }}" method="post" enctype="multipart/form-data">
+                            {{ form_start(form) }}
+                            
+                             <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.firstname) }}
+                    {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.lastname) }}
+                    {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.phonenumber) }}
+                    {{ form_widget(form.phonenumber, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.location) }}
+                    {{ form_widget(form.location, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+                            <div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.gender) }}
+            {{ form_widget(form.gender, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.birthdate) }}
+            {{ form_widget(form.birthdate, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.status) }}
+            {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.creationdate) }}
+            {{ form_widget(form.creationdate, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.newImage) }}
+            {{ form_widget(form.newImage, {'attr': {'class': 'form-control-file'}}) }}
+        </div>
+    </div>
+</div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            {{ form_end(form) }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+  </div>
+
+  <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+     function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            var darkModeButton = document.querySelector('.dark-mode-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeButton.textContent = 'Light Mode';
+            } else {
+                darkModeButton.textContent = 'Dark Mode';
+            }
+        }
+
+        // Function to show header and sidebar after animation
+        
+    </script>
+</body>
+</html>
+{% endblock %}

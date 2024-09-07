@@ -1,0 +1,192 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block title %}Stadium{% endblock %}
+
+{% block content %}
+    <div class="stadium-info" style="background-image: url('{{ asset('Images/tesaax.jpg') }}');">
+        <h1>Stadium</h1>
+
+     
+        <div class="info-table">
+            <div class="info-row">
+                <div class="info-label">Reference:</div>
+                <div class="info-value">{{ stadium.reference }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Height:</div>
+                <div class="info-value">{{ stadium.height }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Width:</div>
+                <div class="info-value">{{ stadium.width }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Price:</div>
+                <div class="info-value">{{ stadium.price }} $ </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Likes:</div>
+                <div class="info-value">{{ stadium.rate }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Maintenance:</div>
+                <div class="info-value">
+                    {% if stadium.maintenance == 0 %}
+                        <span class="verified">Verified <i class="fas fa-check-circle"></i></span>
+                    {% elseif stadium.maintenance == 3 %}
+                        <span class="not-verified">Not Verified <i class="fas fa-times-circle"></i></span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Stadium Images -->
+        <div class="stadium-images">
+            {% for image in stadium.idimage %}
+                <img src="{{ asset(image.url) }}" alt="Stadium Image">
+            {% endfor %}
+        </div>
+
+        <div class="action-links">
+            <a href="{{ path('app_club_stadiums', {'id': stadium.idclub.id}) }}" class="btn btn-primary back-link">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+            <a href="{{ path('app_stadium_edit', {'reference': stadium.reference}) }}" class="btn btn-secondary edit-link">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="{{ path('app_reservation_schedule', {'stadiumId': stadium.reference}) }}" class="btn btn-secondary edit-link">
+                <i class="fas fa-calendar"></i> View Booking scheduele
+            </a>
+            {% if stadium.maintenance == 3 %}
+                <a href="#" class="btn btn-danger edit-link" onclick="alertMaintenance('{{ path('alert_maintenance', {'reference': stadium.reference}) }}')">
+                    <i class="fas fa-exclamation-triangle"></i> Alert Maintenance
+                </a>            
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        /* CSS for the futuristic stadium information */
+        .stadium-info {
+            margin-top: 50px; /* Adjust spacing */
+            padding: 20px; /* Add padding */
+            border-radius: 10px; /* Add rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+            color: #fff; /* Text color */
+            font-size: 16px; /* Font size */
+            background-size: cover; /* Cover the entire card with the background image */
+            background-position: center; /* Center the background image */
+        }
+
+        .club-image {
+            margin-top: 20px; /* Adjust spacing */
+        }
+
+        .club-image img {
+            width: 100%; /* Ensure the image fills its container */
+            max-height: 200px; /* Limit the height of the club image */
+            object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+            border-radius: 10px; /* Add rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+            margin-bottom: 20px; /* Add spacing below the image */
+        }
+
+        .info-table {
+            margin-top: 20px; /* Adjust spacing */
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px; /* Adjust spacing between rows */
+        }
+
+        .info-label {
+            flex: 1; /* Make labels take up one-third of the row */
+            font-weight: bold; /* Make labels bold */
+        }
+
+        .info-value {
+            flex: 2; /* Make values take up two-thirds of the row */
+        }
+
+        .verified {
+            color: #28b463; /* Green color for verified text */
+        }
+
+        .not-verified {
+            color: #d9534f; /* Red color for not verified text */
+        }
+
+        .stadium-images {
+            margin-top: 20px; /* Adjust spacing */
+            display: flex; /* Arrange images in a row */
+            flex-wrap: wrap; /* Wrap images to the next row if necessary */
+        }
+
+        .stadium-images img {
+            width: calc(33.333% - 20px); /* Calculate width for three images per row with margin */
+            margin-right: 20px; /* Add spacing between images */
+            margin-bottom: 20px; /* Add spacing below images */
+            border-radius: 10px; /* Add rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+
+        /* Ensure the last image in each row doesn't have right margin */
+        .stadium-images img:nth-child(3n) {
+            margin-right: 0;
+        }
+
+        .action-links {
+            margin-top: 20px; /* Adjust spacing */
+        }
+
+        .back-link,
+        .edit-link {
+            margin-right: 10px; /* Adjust spacing between links */
+            padding: 10px 20px; /* Add padding */
+            border-radius: 5px; /* Add rounded corners */
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s ease; /* Add transition effect */
+        }
+
+        .back-link {
+            background-color: #28b463; /* Green background color */
+            color: #fff; /* Text color */
+        }
+
+        .edit-link {
+            background-color: #218838; /* Darker green background color */
+            color: #fff; /* Text color */
+        }
+
+        .back-link:hover,
+        .edit-link:hover {
+            background-color: #1e7e34; /* Darker green background color on hover */
+        }
+    </style>
+
+    <script>
+        // Function to handle alerting maintenance
+        function alertMaintenance(url) {
+            // Send AJAX request to update maintenance status
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Maintenance status updated successfully
+                    alert('Maintenance alerted successfully.');
+                    // Refresh the page or update UI as needed
+                } else {
+                    // Error occurred
+                    alert('Error alerting maintenance. Please try again later.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+{% endblock %}

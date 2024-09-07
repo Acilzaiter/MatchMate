@@ -1,0 +1,32 @@
+index:
+    path: /
+    controller: App\Controller\DashboardController::index
+
+
+app_dashboard: 
+    path: /dashboard
+    controller: App\Controller\DashboardController::index
+
+dashUsers: 
+    path: /dashboard/users
+    controller: App\Controller\AdminController::dashUsers
+
+remove_image:
+    path: /remove-image
+    controller: App\Controller\ImageController::removeImage
+    methods: [POST]
+
+app_club_stadiums:
+    path: '/{id}/stadiums'
+    controller: 'App\Controller\StadiumController::showStadiums'
+    methods: ['GET']
+
+
+AddImage:
+    path: /add-image
+    controller: App\Controller\ImageController::addImage
+    methods: [GET, POST]
+
+weather_show:
+    path: '/weather'
+    controller: 'App\Controller\WeatherController::showWeatherForecast'

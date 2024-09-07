@@ -1,0 +1,220 @@
+{% extends 'home/home.html.twig' %}
+
+{% block m %}
+
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 50px;
+            unicode-bidi: isolate;
+            margin-block-end: 1em;
+            width: 700px; /* Optional: Set a max width for better control */
+            margin-left: 140px;
+            max-width: 500px; /* Optional: Further control on max width */
+        }
+        textarea {
+            width: 500px; /* Full width inputs */
+            padding: 3px;
+            font-size: 20px;
+            margin: 5px 0;
+            box-sizing: border-box; /* Includes padding and border in width */
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        input{
+            width: 400px; /* Full width inputs */
+            padding: 3px;
+            font-size: 20px;
+            margin: 5px 0;
+            box-sizing: border-box; /* Includes padding and border in width */
+        }
+
+        label {
+            cursor: default;
+            color: #0fa563; /* Light green color */
+            font-family: 'Lato', sans-serif; /* Using a Google Font for better appearance */
+            font-size: 16px; /* Larger font size */
+            font-weight: bold; /* Bold font style */
+            margin-top: 5px;
+        }
+        .submit-button {
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+    </style>
+    <div style="
+            height: 100%;
+            width: 100%;
+            ">
+        <div class="how-it-works">
+            <span style="margin-left: -40px;color: #3788D8;">Submit your Feedback</span>
+        </div>
+    </div>
+    <div class="black-div" style="top: 600px;height: 730px; ">
+
+    {{ include('feedback/_form.html.twig') }}
+
+    </div>
+{% endblock %}
+{% block partners %}
+{% endblock %}
+{% block footer %}
+
+    <footer class="footer" style="margin-top: 300px">
+        <div class="footer-section">
+            <div class="logo-and-paragraph">
+                <img src="{{ asset('Images/logo.png') }}" alt="Footer Logo">
+                <p>Copyrights MiCasa Homes and Properties</p>
+                <p>All rights reserved</p>
+            </div>
+        </div>
+        <div class="footer-section">
+            <ul class="footer-list">
+                <h3>Company</h3>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <ul class="footer-list">
+                <h3>Support</h3>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Shipping Information</a></li>
+                <li><a href="#">Returns & Refunds</a></li>
+            </ul>
+        </div>
+    </footer>
+{% endblock %}
+{% block style %}
+<style>
+    /* General styles */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .subtitle {
+        font-size: 24px;
+        margin-top: 20px;
+        color: #f9f9f9;
+    }
+
+    .label {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .info-label {
+        font-weight: bold;
+    }
+
+    .info-text {
+        margin-left: 5px;
+    }
+
+    .date-picker-container {
+        margin-bottom: 20px;
+    }
+
+    .date-picker {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+
+    .confirmation-text {
+        text-align: center;
+        font-size: 20px;
+        color: #4CAF50;
+    }
+
+    .fade-in {
+        animation: fadeIn ease 1s;
+        -webkit-animation: fadeIn ease 1s;
+        -moz-animation: fadeIn ease 1s;
+        -o-animation: fadeIn ease 1s;
+        -ms-animation: fadeIn ease 1s;
+    }
+
+    @keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-moz-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-webkit-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-o-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-ms-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    .validate-button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .validate-button {
+        background-color: #3788D8;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        display: inline-flex;
+        align-items: center;
+        border-bottom: none; /* Add this line to remove the border */
+        decoration : none;
+    }
+
+    .validate-button img {
+        width: 24px; /* Adjust the width of the image */
+        height: 24px; /* Adjust the height of the image */
+        margin-right: 10px; /* Add some spacing between the image and text */
+    }
+
+    .validate-button:hover {
+        background-color: #1e6bd6; /* Adjust the hover background color */
+    }
+
+</style>
+
+{% endblock %}
+
+

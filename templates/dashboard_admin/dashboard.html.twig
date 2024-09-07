@@ -1,0 +1,272 @@
+{% extends 'dashboard/dashboard.html.twig'%}
+
+  {% block content %}
+
+
+      <style>
+          /* female pmale cards dashboar css*/
+          .order-card {
+              color: #fff;
+          }
+
+          .bg-c-blue {
+              background: linear-gradient(45deg,#4099ff,#73b4ff);
+          }
+          .bg-c-pink {
+              background: linear-gradient(45deg,#FF5370,#ff869a);
+          }
+
+
+          .card {
+              border-radius: 7px;
+              -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+              box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+              border: none;
+              margin-bottom: 20px;
+              -webkit-transition: all 0.3s ease-in-out;
+              transition: all 0.3s ease-in-out;
+          }
+
+          .card .card-block {
+              padding: 25px;
+          }
+
+          .order-card i {
+              font-size: 26px;
+          }
+
+          .f-left {
+              float: left;
+          }
+
+          .f-right {
+              float: right;
+          }
+
+      </style>
+
+      <div class="content" >
+
+          <div class="container">
+              <h1 class="text-3xl font-bold text-end mb-8">Welcome to the Dashboard</h1>
+
+
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                  <!-- Total Users Box -->
+                  <div class="bg-black rounded-md shadow-sm p-4 text-white">
+                      <h5 class="text-sm font-semibold">Total Users</h5>
+                      <p class="text-3xl">{{ totalUsers }}</p>
+                  </div>
+
+                  <!-- Admin Count Box -->
+                  <div class="bg-white rounded-md shadow-sm p-4 flex items-center space-x-4">
+                      <img src="{{ asset('Images/admin_logo.png') }}" class="h-12 w-12 bg-green-400 p-2 rounded-full" alt="Admin Count Logo">
+                      <div>
+                          <h5 class="text-sm font-semibold">Admin Count</h5>
+                          <p class="text-3xl">{{ adminCount }}</p>
+                      </div>
+                  </div>
+
+                  <!-- Player Count Box -->
+                  <div class="bg-white rounded-md shadow-sm p-4 flex items-center space-x-4">
+                      <img src="{{ asset('Images/player_logo.png') }}" class="h-12 w-12 bg-blue-400 p-2 rounded-full" alt="Player Count Logo">
+                      <div>
+                          <h5 class="text-sm font-semibold">Player Count</h5>
+                          <p class="text-3xl">{{ playerCount }}</p>
+                      </div>
+                  </div>
+
+                  <!-- Field Owner Count Box -->
+                  <div class="bg-white rounded-md shadow-sm p-4 flex items-center space-x-4">
+                      <img src="{{ asset('Images/fieldowner_logo.png') }}" class="h-12 w-12 bg-indigo-400 p-2 rounded-full" alt="Field Owner Count Logo">
+                      <div>
+                          <h5 class="text-sm font-semibold">Field Owner Count</h5>
+                          <p class="text-3xl">{{ fieldOwnerCount }}</p>
+                      </div>
+                  </div>
+              </div>
+
+
+              <div class="container mt-4">
+                  <div class="row">
+                      <div class="col-md-3">
+                          <!-- Female Count Box -->
+                          <div class="col-md-12 mb-3">
+                              <div class="card bg-c-pink order-card d-flex flex-column align-items-center">
+                                  <img src="{{ asset('Images/female_logo.png') }}" class="card-img-left p-2" style="max-width: 40px;" alt="Female Count Logo">
+                                  <div class="card-body text-center">
+                                      <h5 class="m-b-20 d-inline-block">Female Count</h5>
+                                      <h2 class="text-right d-inline-block"><span>{{ femaleCount }}</span></h2>
+
+                                  </div>
+                              </div>
+                          </div>
+
+                          <!-- Male Count Box -->
+                          <div class="col-md-12 mb-3">
+                              <div class="card bg-c-blue order-card d-flex align-items-center">
+                                  <img src="{{ asset('Images/male_logo.png') }}" class="card-img-left p-2" style="max-width: 45px;" alt="Male Count Logo">
+                                  <div class="card-body text-center">
+                                      <h6 class="m-b-20 d-inline-block">Male Count</h6>
+                                      <h2 class="text-right d-inline-block"><span>{{ maleCount }}</span></h2>
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-9">
+                          <!-- Age Chart -->
+                          <div class="col-md-12 d-flex justify-content-center">
+                              <div id="ageChart" style="height: 310px; width:90%; "></div>
+                          </div>
+                      </div>
+
+                      <!-- lOcation Chart -->
+                      <div id="regionChart" style="min-width: 400px; height: 300px; margin: 0 auto"></div>
+
+                  </div>
+              </div>
+
+
+          </div>
+
+      </div>
+
+      </div>
+
+      </div>
+
+      </div>
+
+      </div>
+
+
+      </div>
+
+
+
+
+
+
+
+
+      </div>
+
+
+      <script>
+          function toggleDarkMode() {
+              document.body.classList.toggle('dark-mode');
+              var darkModeButton = document.querySelector('.dark-mode-toggle');
+              if (document.body.classList.contains('dark-mode')) {
+                  darkModeButton.textContent = 'Light Mode';
+              } else {
+                  darkModeButton.textContent = 'Dark Mode';
+              }
+          }
+
+          // Function to show header and sidebar after animation
+          setTimeout(function() {
+              document.getElementById('intro-animation').style.display = 'none';
+              document.querySelector('header').style.display = 'flex';
+              document.querySelector('.sidebar').style.display = 'block';
+              document.querySelector('.content').style.display = 'block';
+          }, 5000); // Adjust the duration here (in milliseconds)
+
+          // Animate the letters one by one
+          var animatedLetters = document.querySelectorAll('.animated-letter');
+          animatedLetters.forEach(function(letter, index) {
+              setTimeout(function() {
+                  letter.style.opacity = '1';
+              }, index * 100); // Adjust delay between letters (in milliseconds)
+          });
+
+
+
+
+
+
+
+          // Your age  Highcharts chart configuration
+          document.addEventListener('DOMContentLoaded', function () {
+              var userAges = {{ userAges | json_encode | raw }};
+              var ageGroups = [];
+              var userCounts = [];
+              userAges.forEach(function (data) {
+                  ageGroups.push(data.ageGroup);
+                  userCounts.push(data.userCount);
+              });
+
+              Highcharts.chart('ageChart', {
+                  chart: {
+                      type: 'column'
+                  },
+                  title: {
+                      text: 'Age Distribution of Users'
+                  },
+                  xAxis: {
+                      categories: ageGroups,
+                      title: {
+                          text: 'Age Group'
+                      }
+                  },
+                  yAxis: {
+                      title: {
+                          text: 'User Count'
+                      }
+                  },
+                  plotOptions: {
+                      column: {
+                          colorByPoint: true, // Color each column individually
+                          colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9'] // Specify custom colors
+                      }
+                  },
+                  series: [{
+                      name: 'Users',
+                      data: userCounts
+                  }]
+              });
+
+          });
+      </script>
+
+
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+      <script>
+          // Retrieve data passed from Symfony controller
+          var regions = {{ usersByRegion | json_encode | raw }};
+          var regionNames = Object.keys(regions);
+          var userCounts = Object.values(regions);
+
+          Highcharts.chart('regionChart', {
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: 'User Distribution by Region'
+              },
+              xAxis: {
+                  categories: regionNames,
+                  title: {
+                      text: 'Region'
+                  }
+              },
+              yAxis: {
+                  title: {
+                      text: 'User Count'
+                  }
+              },
+              plotOptions: {
+                  column: {
+                      colorByPoint: true, // Color each column individually
+                      colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'] // Specify custom colors
+                  }
+              },
+              series: [{
+                  name: 'Users',
+                  data: userCounts
+              }]
+          });
+      </script>
+
+  {% endblock %}

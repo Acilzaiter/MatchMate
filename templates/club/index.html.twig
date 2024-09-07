@@ -1,0 +1,719 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+
+{% block content %}
+
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+         <!-- Flashy depends on jQuery -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <!-- Load Flashy default JavaScript -->
+        <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+        <!-- Include Flashy default partial -->
+        {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+        <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+
+
+
+<style type="text/css">
+    body {
+        background: #f3f3f3;
+    }
+           /* Override default Flashy CSS to position notifications in the center of the page */
+            .flashy {
+                position: fixed;
+                top: 30%;
+                left: 93%;
+                transform: translate(-50%, -100%);
+                z-index: 1000; /* Ensure it's above other elements */
+                width: 150px; /* Set the width of the notification */
+                height: 70px;
+                padding: 10px; /* Adjust padding as needed */
+                font-size: 14px; /* Adjust font size as needed */
+                border-radius: 5px; /* Add border radius for rounded corners */
+            }
+
+    .categories ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .categories ul li {
+        display: inline-block;
+        padding: 0;
+        line-height: 24px;
+        background: transparent;
+        margin: 0;
+        margin-left: 5px;
+        margin-bottom: 10px;
+    }
+
+    .categories ul li a {
+        display: block;
+        font-size: 18px;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: 2px solid transparent;
+        -webkit-transition: all .2s ease-out;
+        transition: all .2s ease-out;
+    }
+
+    .categories ul li a,
+    .categories ul li a:active,
+    .categories ul li a:hover {
+        line-height: 24px;
+        background: #fff;
+        color: #4E5961;
+        text-decoration: none;
+    }
+
+    .categories ul li a:hover,
+    .categories ul li.active a {
+        color: #fff;
+        background: #5cc9df;
+    }
+
+    .projects-container .row {
+        -webkit-transition: height .5s ease-out;
+        transition: height .5s ease-out;
+    }
+
+    .portfolio-item {
+        position: relative;
+        margin-bottom: 30px;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+        -webkit-transition: all .4s ease-out;
+        transition: all .4s ease-out;
+    }
+
+    .portfolio-item.filtered {
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        opacity: 0.2;
+        cursor: default;
+    }
+
+    .no-opacity .portfolio-item.filtered {
+        display: none;
+    }
+
+    .portfolio-item.filtered a {
+        cursor: default;
+    }
+
+    .portfolio-item.filtered .enlarge,
+    .portfolio-item.filtered .link,
+    .portfolio-item.filtered .overlay-mask,
+    .portfolio-item.filtered .project-title {
+        display: none;
+    }
+
+    .portfolio-thumb {
+        display: block;
+        position: relative;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        height: 350px; /* Adjust the height of the cards */
+        width: 100%; /* Ensure the cards fill the entire width */
+    }
+
+    .scrollimation .portfolio-thumb {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+        opacity: 0;
+        -webkit-transition: opacity .4s ease-out, -webkit-transform .4s ease-out;
+        transition: opacity .4s ease-out, transform .4s ease-out;
+    }
+
+    .touch .scrollimation .portfolio-thumb,
+    .scrollimation .portfolio-thumb.in {
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        opacity: 1;
+    }
+
+    .portfolio-thumb .overlay-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #5CC9DF;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        z-index: 1;
+        -webkit-transition: opacity .3s ease-out;
+        transition: opacity .3s ease-out;
+    }
+
+    
+
+    .portfolio-thumb:hover .overlay-mask {
+        opacity: 0.8;
+        filter: alpha(opacity=80);
+    background: #0fa563; /* Pastel green color */
+
+    }
+
+    .portfolio-thumb .enlarge,
+    .portfolio-thumb .link {
+        display: inline-block;
+        margin: 0;
+        margin-top: -25px;
+        font-size: 50px;
+        line-height: 50px;
+        color: #fff;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        position: absolute;
+        height: 50px;
+        width: 64px;
+        top: 40%;
+        left: 50%;
+        text-align: center;
+        z-index: 3;
+    }
+
+    .portfolio-thumb .enlarge {
+        margin-left: -84px;
+        -webkit-transform: translateX(-200px);
+        transform: translateX(-200px);
+        -webkit-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+    }
+
+    .portfolio-thumb:hover .enlarge {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        opacity: 1;
+        filter: alpha(opacity=100);
+        -webkit-transition: all .3s ease-out .3s;
+        transition: all .3s ease-out .3s;
+    }
+
+    .portfolio-thumb .link {
+        margin-left: 20px;
+        -webkit-transform: translateX(200px);
+        transform: translateX(200px);
+        -webkit-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+    }
+
+    .portfolio-thumb:hover .link {
+        -webkit-transform: translate(0);
+        transform: translate(0);
+        opacity: 1;
+        filter: alpha(opacity=100);
+        -webkit-transition: all .3s ease-out .6s;
+        transition: all .3s ease-out .6s;
+    }
+
+    .portfolio-thumb .enlarge.centered,
+    .portfolio-thumb .link.centered {
+        margin-left: -32px;
+        -webkit-transform: translateY(-200px);
+        transform: translateY(-200px);
+        -webkit-transition-delay: 0s;
+        transition-delay: 0s;
+    }
+
+    .portfolio-thumb:hover .enlarge.centered,
+    .portfolio-thumb:hover .link.centered {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        -webkit-transition-delay: 0.3s;
+        transition-delay: 0.3s;
+    }
+
+    .portfolio-thumb .project-title {
+        display: block;
+        width: 100%;
+        position: absolute;
+        bottom: -100px;
+        background: #fff;
+        margin: 0;
+        padding: 20px 0;
+        font-size: 21px;
+        font-weight: 300;
+        color: #777;
+        text-align: center;
+        z-index: 2;
+        -webkit-transition: bottom .4s ease-out, color .2s ease-out;
+        transition: bottom .4s ease-out, color .2s ease-out;
+    }
+
+    .portfolio-thumb:hover .project-title {
+        bottom: 0;
+        -webkit-transition: bottom .3s ease-out .1s, color .2s ease-out 0s;
+        transition: bottom .3s ease-out .1s, color .2s ease-out 0s;
+    }
+
+    .portfolio-thumb .project-title:hover {
+        color: green;
+    }
+    /* Add CSS styles for the modal */
+/* Add CSS styles for the modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure the modal appears above other elements */
+}
+
+.modal img {
+    max-width: 90%; /* Adjust the max-width of the enlarged image */
+    max-height: 90%; /* Adjust the max-height of the enlarged image */
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Add a shadow effect */
+    cursor: pointer; /* Change cursor to pointer when hovering over the image */
+}
+
+.add-club-card {
+    background-color: transparent; /* Set background color to transparent */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.add-club-card .card-content {
+    text-align: center;
+}
+
+.add-club-card .image-container {
+    margin-bottom: 20px;
+}
+
+.add-club-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.add-club-card h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    color: #333;
+}
+.club-heading {
+    font-family: 'Arial', sans-serif; /* Change the font family as needed */
+    font-size: 36px; /* Adjust the font size as needed */
+    font-weight: bold; /* Adjust the font weight as needed */
+}
+
+.green-letter {
+    color: green; /* Change the color of the green letter */
+}
+
+
+.green-line {
+    border: none;
+    border-bottom: 2px solid green; /* Adjust the underline style as needed */
+    width: 50%; /* Adjust the width of the underline */
+    margin: auto; /* Center the underline */
+    margin-top: 10px; /* Adjust the distance between the text and the underline */
+
+   
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#clubSearch {
+    width: 300px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 25px;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    background-color: #f0f0f0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-button svg {
+    width: 24px;
+    height: 24px;
+    stroke: #333;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover svg {
+    stroke: #5cc9df;
+    transform: scale(1.1);
+}
+
+/* Adjust the width of the select inputs */
+select.form-control {
+    width: 100%; /* Adjust as needed */
+    max-width: 200px; /* Set maximum width */
+}
+
+/* Notification icon */
+.notification-icon {
+    width: 50px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 10px; 
+    cursor: pointer;
+}
+
+/* Notifications container */
+.notifications-container {
+    position: fixed;
+    bottom: 20px; /* Adjust the distance from the bottom */
+    right: 20px; /* Adjust the distance from the right */
+    width: 300px; /* Adjust the width as needed */
+    max-height: 400px; /* Adjust the max height as needed */
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    color: #fff; /* Text color */
+    border-radius: 8px;
+    padding: 10px;
+    display: none; /* Hide by default */
+    animation: slideIn 0.5s ease-out; /* Add slide in animation */
+}
+
+/* Notification items */
+.notification-item {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Separator between notifications */
+    opacity: 0; /* Start with 0 opacity */
+    animation: fadeIn 0.5s forwards; /* Add fade in animation */
+}
+
+/* Remove separator from the last notification */
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+/* Animation keyframes */
+@keyframes slideIn {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+    </style>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<div class="container bootstrap snippets bootdey">
+
+
+<h1 class="text-center section-title">
+    <span class="club-heading">Current <span class="green-letter">C</span>lubs</span>
+    <img src="{{ asset('Images/notification-bell.png') }}" alt="Bell Icon" class="notification-icon" id="notification-icon">
+</h1>
+
+<!-- Add this code where you want the notifications container to appear -->
+<div class="notifications-container" id="notifications-container">
+    <h3>Notifications</h3>
+    <ul>
+        {% for notification in notifications %}
+            <li class="notification-item">{{ notification.text }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<hr class="green-line">
+
+</br>
+</br>
+
+<section id="portfolio" class="gray-bg padding-top-bottom">
+  <div class="container bootstrap snippets bootdey">
+
+
+    
+<!-- Add the search input and dropdowns in the same line -->
+<div class="row">
+    <div class="col-md-4">
+        <!-- Search input -->
+        <div class="search-container">
+            <input type="text" id="clubSearch" placeholder="Search by club name">
+            <div class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <!-- Governorate dropdown -->
+        <select class="form-control" id="governorateFilter">
+            <option value="">Filter by Governorate</option>
+            {% for governorate in governorates %}
+                <option value="{{ governorate }}">{{ governorate }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-4">
+        <!-- City dropdown -->
+        <select class="form-control" id="cityFilter">
+            <option value="">Filter by City</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+</br>
+
+
+    <section id="portfolio" class="gray-bg padding-top-bottom">
+        <div class="container bootstrap snippets bootdey">
+            <div class="projects-container scrollimation in">
+                <div class="row" id="portfolioItems">
+                    {% for club in clubs %}
+                    <div class="col-md-4 col-sm-6 portfolio-item web-design apps psd"     data-governorate="{{ club.governorate }}" 
+     data-city="{{ club.city }}">
+                        <div class="portfolio-thumb in">
+                            {% if club.idimage is not empty %}
+                                {% set firstImage = club.idimage.first %}
+                                <a href="{{ path('app_club_show', {'id': club.id}) }}" class="main-link">
+                                    <img class="img-responsive img-center" src="{{ asset(firstImage.url) }}" alt="Club Image">
+                                    <div class="overlay-mask">
+                                        <h2 class="project-title">{{ club.name }}</h2>
+                                        <a class="link" href="{{ path('app_club_show', {'id': club.id}) }}"><i class="fa fa-eye fa-fw"></i></a>
+                                    </div>
+                                </a>
+                                <a href="#" class="main-link">
+                                    <div class="enlarge" data-image="{{ asset(club.idimage[0].url) }}" title="Click to enlarge">
+                                        <i class="fa fa-expand fa-fw"></i>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <a href="#" class="link"><i class="fa fa-stadium fa-fw"></i></a>
+                    </div>
+                    {% endfor %}
+               <div class="col-md-4 col-sm-6 portfolio-item web-design apps psd">
+    <div class="portfolio-thumb in">
+        {# Check if the user is an admin #}
+        {% if app.user.role == 'Admin' %}
+            {# If the user is an admin, always show the "Create New Club" button without any restrictions #}
+            <a href="{{ path('app_club_new') }}" id="subscribe-link" class="main-link">
+                <div class="card add-club-card" style="">
+                    <div class="card-content">
+                        <div class="image-container">
+                            <img src="{{ asset('Images/plus.png') }}" alt="Create New Club">
+                        </div>
+                        <h2>Create New Club</h2>
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            {# If the user is not an admin, proceed with the subscription-related checks #}
+            {% if hasSubscription %}
+                {# Check if the user has reached the maximum number of clubs allowed #}
+                {% if maxClubsReached %}
+                    <div class="card add-club-card">
+                        <div class="card-content">
+                            <div class="image-container">
+                                <!-- Use a different image for users who reached the club limit -->
+                                <img src="{{ asset('Images/club_limit_reached.jpg') }}" alt="Club Limit Reached">
+                            </div>
+                            <h2>{{ subscriptionEndDate ? 'Days Left for the Subscription: ' ~ ((subscriptionEndDate|date('U') - 'now'|date('U')) / (3600 * 24))|round }}</h2>
+                        </div>
+                    </div>
+                {% else %}
+                    {# If the user has a subscription and hasn't reached the club limit, show the "Create New Club" button #}
+                    <a href="{{ path('app_club_new') }}" id="subscribe-link" class="main-link">
+                        <div class="card add-club-card">
+                            <div class="card-content">
+                                <div class="image-container">
+                                    <img src="{{ asset('Images/plus.png') }}" alt="Create New Club">
+                                </div>
+                                <h2>Create New Club</h2>
+                            </div>
+                        </div>
+                    </a>
+                {% endif %}
+            {% else %}
+                {# If the user doesn't have a subscription, show the button to create a subscription #}
+                <a href="{{ path('app_subscription_new') }}" id="subscribe-link" class="main-link">
+                    <div class="card add-club-card">
+                        <div class="card-content">
+                            <div class="image-container">
+                                <!-- Use a different image for users without a subscription -->
+                                <img src="{{ asset('Images/subscribe.jpg') }}" alt="Subscribe">
+                            </div>
+                            <h2>Subscribe to Create Clubs</h2>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if hasSubscription %}
+  <div class="text-center">
+    <a href="{{ path('subscription_receipt', {'id': subscription.id}) }}" class="btn btn-primary" target="_blank">Print Subscription Receipt</a>
+</div>
+
+{% endif %}
+
+</div>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+    $('.categories a').click(function(e){
+    	$('.categories ul li').removeClass('active');
+    	$(this).parent('li').addClass('active');
+    	var itemSelected = $(this).attr('data-filter');
+    	$('.portfolio-item').each(function(){
+    		if (itemSelected == '*'){
+    			$(this).removeClass('filtered').removeClass('selected');
+    			return;
+    		} else if($(this).is(itemSelected)){
+    			$(this).removeClass('filtered').addClass('selected');
+    		} else{
+    			$(this).removeClass('selected').addClass('filtered');
+    		}
+    	});
+    });
+});
+  // Add an event listener to all elements with the class "enlarge"
+    document.querySelectorAll('.enlarge').forEach(item => {
+        // Add a click event listener to each element
+        item.addEventListener('click', event => {
+            // Prevent the default behavior of the click event (e.g., redirecting)
+            event.preventDefault();
+
+            // Get the URL of the image to be enlarged from the data-image attribute
+            const imageUrl = item.getAttribute('data-image');
+
+            // Create a modal or lightbox element
+            const modal = document.createElement('div');
+            modal.classList.add('modal');
+
+            // Add the enlarged image to the modal
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            modal.appendChild(img);
+
+            // Add the modal to the document body
+            document.body.appendChild(modal);
+
+            // Add a click event listener to the modal to close it when clicked
+            modal.addEventListener('click', () => {
+                modal.remove(); // Remove the modal from the DOM
+            });
+        });
+    });
+    
+       // Add event listener to the search input
+    document.getElementById('clubSearch').addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase(); // Convert input value to lowercase for case-insensitive search
+        const portfolioItems = document.querySelectorAll('.portfolio-item'); // Select all portfolio items
+
+        portfolioItems.forEach(function(item) {
+            const clubName = item.querySelector('.project-title').textContent.toLowerCase(); // Get club name
+            if (clubName.includes(searchValue)) {
+                item.classList.remove('filtered'); // Show the item if club name matches search value
+            } else {
+                item.classList.add('filtered'); // Hide the item if club name does not match search value
+            }
+        });
+    });
+
+  document.getElementById('notification-icon').addEventListener('click', function() {
+    var container = document.getElementById('notifications-container');
+    container.classList.toggle('fade-in');
+    container.style.display = container.style.display === 'block' ? 'none' : 'block';
+
+    // Get all notification items
+    var notificationItems = document.querySelectorAll('.notification-item');
+
+    // Loop through notification items and fade them in
+    notificationItems.forEach(function(item, index) {
+        setTimeout(function() {
+            item.style.opacity = 1;
+        }, index * 300); // Delay each item by 300 milliseconds
+    });
+
+    // Hide the notifications container after a delay
+    setTimeout(function() {
+        container.style.display = 'none';
+    }, notificationItems.length * 3000 + 500); // Wait for all items to fade in plus an extra delay
+});
+
+
+
+    // Add event listeners to the dropdowns
+document.getElementById('governorateFilter').addEventListener('change', function() {
+    filterClubs();
+});
+
+document.getElementById('cityFilter').addEventListener('change', function() {
+    filterClubs();
+});
+
+function filterClubs() {
+    const selectedGovernorate = document.getElementById('governorateFilter').value.toLowerCase();
+    const selectedCity = document.getElementById('cityFilter').value.toLowerCase();
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    portfolioItems.forEach(function(item) {
+        const clubGovernorate = item.getAttribute('data-governorate').toLowerCase();
+        const clubCity = item.getAttribute('data-city').toLowerCase();
+        
+        if ((selectedGovernorate === '' || clubGovernorate === selectedGovernorate) && 
+            (selectedCity === '' || clubCity === selectedCity)) {
+            item.classList.remove('filtered');
+        } else {
+            item.classList.add('filtered');
+        }
+    });
+}
+
+
+
+
+</script>
+
+
+{% endblock %}

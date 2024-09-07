@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block stylesheets %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Style -->
+    <link rel="stylesheet" href="css/style_registration.css">
+{% endblock %}
+
+{% block body %}
+    <div class="d-lg-flex half">
+        <div class="bg order-1 order-md-1" style="background-image: url('Images/loginImg.png');"></div>
+        <div class="contents order-2 order-md-2">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="container mt-3">
+                            <h1 class="mb-5">Create Your Account Now .</h1>
+                           
+
+                            {{ form_start(registrationForm, { 'attr': {'class': 'row g-3'} }) }}
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.email, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.plainPassword, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.firstname, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.lastname, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.birthdate, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.location, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.gender, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.role, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_label(registrationForm.image) }}
+                                    {{ form_widget(registrationForm.image, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="col-md-12 ">
+                                    <a href="{{ path('app_login') }}" class="login_link" >Already registered ?</a>
+                                    <input type="submit" value="Register" class="btn btn-block btn-primary mt-3">
+                                </div>
+                            {{ form_end(registrationForm) }}
+
+                            {% if errors is defined and errors|length > 0 %}
+                            <div class="alert alert-danger mt-3">
+                                <ul>
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,90 @@
+/* Styles for the new claim form */
+/* Styles for the new claim form */
+.new-claim-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.edit-claim-title {
+    font-size: 32px; /* Taille de la police */
+    font-weight: 600; /* Poids de la police */
+    margin-bottom: 20px;
+    color: #343a40;
+    text-align: center; /* Centrer le texte */
+    font-family: 'Arial', sans-serif; /* Choisir une police de caractères moderne */
+}
+.new-claim-title {
+    font-size: 32px; /* Taille de la police */
+    font-weight: 600; /* Poids de la police */
+    margin-bottom: 20px;
+    color: #343a40;
+    text-align: center; /* Centrer le texte */
+    font-family: 'Arial', sans-serif; /* Choisir une police de caractères moderne */
+}
+
+
+/* Modifier le style du bouton "Back to list" */
+.back-to-list-button {
+    background-color: #6c757d; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    padding: 10px 40px 10px 20px; /* Ajouter de l'espace pour l'icône */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Supprimer le soulignement du lien */
+    position: relative; /* Position relative pour placer l'icône */
+}
+
+
+
+
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #343a40;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.select-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/><path fill="none" d="M0 0h24v24H0z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+.form-submit {
+    background-color: #0d6725;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-submit:hover {
+    background-color: #028b4d;
+}

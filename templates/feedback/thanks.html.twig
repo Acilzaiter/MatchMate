@@ -1,0 +1,99 @@
+{% extends 'home/home.html.twig' %}
+
+{% block m %}
+    
+{% endblock %}
+
+{% block t %}
+<br><br><br><br><br><br>
+<div class="payment-success">
+    <h1 class="success-title">Thank you for your Feedback!</h1>
+    <p class="success-message">
+        We appreciate you taking the time to help us improve our services. If you have further questions, please email 
+        <a href="mailto:matchmate59@gmail.com" class="contact-link">matchmate59@gmail.com</a>.
+    </p>
+    
+    <!-- Add a form for the PDF button and the back button if needed -->
+    <a href="{{ path('app_home') }}" class="btn btn-secondary back-button">
+        Back to Home page
+    </a>
+</div>
+
+<style>
+    .payment-success {
+        text-align: center;
+        margin-top: 50px;
+        animation: fadeInUp 1s ease;
+    }
+
+    .success-title {
+        font-size: 2em;
+        color: #3788D8;
+        margin-bottom: 20px;
+    }
+
+    .success-message {
+        font-size: 1.2em;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    .contact-link {
+        color: #3788D8;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .contact-link:hover {
+        color: #155785;
+    }
+
+    .back-button {
+        background-color: #3788D8;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none; /* Remove underline */
+    }
+
+    .back-button:hover {
+        background-color: #155785;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .success-title {
+            font-size: 1.5em;
+        }
+
+        .success-message {
+            font-size: 1em;
+        }
+
+        .back-button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% block partners %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

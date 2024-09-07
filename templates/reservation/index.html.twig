@@ -1,0 +1,48 @@
+{% extends 'dashboard/sidebar.html.twig' %}
+
+{% block content %}
+
+    <h2 class="mb-4">Reservation index</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Club</th>
+                <th>Stadium</th>
+                <th>Date</th>
+                <th>Starttime</th>
+                <th>Endtime</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.idplayer.firstname }} {{ reservation.idplayer.lastname }}</td>
+                <td>{{ reservation.refStadium.idclub.name }}</td>
+                <td>{{ reservation.refStadium.reference }}</td>
+                <td>{{ reservation.date ? reservation.date|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.starttime ? reservation.starttime|date('H:i:s') : '' }}</td>
+                <td>{{ reservation.endtime ? reservation.endtime|date('H:i:s') : '' }}</td>
+                <td>{{ reservation.type }}</td>
+                <td>
+                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" title="Show Reservation">
+                        <img src="Images/eye.gif"  />
+                    </a>
+                    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" title="Edit Reservation">
+                        <img src="Images/edit.gif" />
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_new') }}">Create new</a>
+{% endblock %}

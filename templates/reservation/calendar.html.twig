@@ -1,0 +1,522 @@
+{% extends 'home/home.html.twig' %}
+
+    {% block m %}
+    
+    {% endblock %}
+    
+    {% block t %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <div class="additional-partners">
+    <div class="container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <h1 class="page-title">Manage Your Booking Calendar</h1>
+        </div>
+        <!-- Filter Section -->
+        <!-- Filter Section -->
+        <form class="filter-form" action="{{ path('calendar') }}" method="GET">
+            <select id="clubSelect" name="club">
+                <option value="">ALL</option>
+                {% for club in clubs %}
+                    <option value="{{ club.getId() }}">{{ club.getName() }}</option>
+                {% endfor %}
+            </select>
+            <!-- Add the reset icon button -->
+            <div class="input-group-append">
+                <button type="button" title="Reset"  class="btn btn-secondary btn-reset"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Calendar -->
+                <div class="calendar">
+                    <div class="calendar-header">
+                    <button class="prev-month">&lt;</button>
+                    <h2 class="month-year">February 2024</h2>
+                    <button class="today-btn">Today</button>
+                    <button class="next-month">&gt;</button>
+                </div>
+            <div class="weekdays">
+                <div class="day">Sun</div>
+                <div class="day">Mon</div>
+                <div class="day">Tue</div>
+                <div class="day">Wed</div>
+                <div class="day">Thu</div>
+                <div class="day">Fri</div>
+                <div class="day">Sat</div>
+            </div>
+            <div class="days">
+                <!-- Days of the month will be inserted here dynamically -->
+            </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!-- Reservation Details -->
+                <div id="reservationDetails" class="reservation-cards">
+        <script>
+            const user = {{ user ? user.id : 'null' }};
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.querySelector('.calendar');
+            const headerEl = calendarEl.querySelector('.month-year');
+            const daysContainer = calendarEl.querySelector('.days');
+            const prevMonthBtn = calendarEl.querySelector('.prev-month');
+            const nextMonthBtn = calendarEl.querySelector('.next-month');
+            const todayBtn = calendarEl.querySelector('.today-btn');
+            const reservationDetailsEl = document.getElementById('reservationDetails');
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            let currentDate = new Date();
+            function generateCalendar() {
+                headerEl.textContent = `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+                daysContainer.innerHTML = '';
+
+                // Fill in the days of the month
+                const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+                const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+
+                for (let i = 0; i < firstDayOfMonth; i++) {
+                    const prevMonthDay = document.createElement('div');
+                    prevMonthDay.classList.add('day-cell', 'prev-month');
+                    const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0 - i);
+                    prevMonthDay.textContent = prevMonthDate.getDate();
+                    daysContainer.appendChild(prevMonthDay);
+                }
+
+                for (let i = 1; i <= daysInMonth; i++) {
+                const dayCell = document.createElement('div');
+                dayCell.classList.add('day-cell');
+                dayCell.textContent = i;
+
+                // Count reservations for the current day
+                const dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${i}`;
+                const reservationsCount = countReservations(dateStr);
+
+                // Display reservations count as a tooltip if it's greater than 0
+                if (reservationsCount > 0) {
+                    dayCell.setAttribute('data-toggle', 'tooltip');
+                    dayCell.setAttribute('title', `${reservationsCount} reservations`);
+                
+                }
+                // Add a class to dates with reservations
+                if (reservationsCount > 0) {
+                    dayCell.classList.add('has-reservations');
+                }
+
+                    daysContainer.appendChild(dayCell);
+                }
+                $('[data-toggle="tooltip"]').tooltip();
+
+                const totalDays = firstDayOfMonth + daysInMonth;
+                const remainingDays = 42 - totalDays;
+
+                for (let i = 1; i <= remainingDays; i++) {
+                    const nextMonthDay = document.createElement('div');
+                    nextMonthDay.classList.add('day-cell', 'next-month');
+                    const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
+                    nextMonthDay.textContent = nextMonthDate.getDate();
+                    daysContainer.appendChild(nextMonthDay);
+                }
+            }
+
+            // Initial calendar generation
+            generateCalendar();
+
+            // Function to count reservations for a given date
+            function countReservations(dateStr) {
+            console.log('Date string:', dateStr);
+            const reservations = JSON.parse('{{ events | raw }}'); // Parse events data from Symfony
+            console.log('Parsed reservations:', reservations);
+            const reservationsOnDate = reservations.filter(event => {
+                const startDate = new Date(event.start + 'T00:00:00'); // Adding 'T00:00:00' for consistency
+                const endDate = new Date(event.end + 'T23:59:59'); // Adding 'T23:59:59' for consistency
+                const targetDate = new Date(dateStr);
+                return targetDate >= startDate && targetDate <= endDate;
+            });
+            console.log('Reservations on date:', reservationsOnDate);
+            return reservationsOnDate.length;
+            }
+
+                // Event listeners for navigating to previous and next months
+                prevMonthBtn.addEventListener('click', () => {
+                    currentDate.setMonth(currentDate.getMonth() - 1);
+                    generateCalendar();
+                });
+
+                nextMonthBtn.addEventListener('click', () => {
+                    currentDate.setMonth(currentDate.getMonth() + 1);
+                    generateCalendar();
+                });
+
+                // Event listener for the "Today" button
+                todayBtn.addEventListener('click', () => {
+                    currentDate = new Date();
+                    generateCalendar();
+                });
+
+            
+                    daysContainer.addEventListener('click', (event) => {
+                    const clickedDay = event.target.textContent;
+                    if (!isNaN(clickedDay)) {
+                        const dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${clickedDay}`;
+                        fetch("{{ path('reservation_details') }}?date=" + dateStr + "&user=" + user) // Pass user along with the date
+                            .then(response => response.text())
+                            .then(html => {
+                                reservationDetailsEl.innerHTML = html;
+                            })
+                            .catch(error => {
+                                reservationDetailsEl.innerHTML = 'Error loading reservation details.';
+                            });
+                    }
+                });
+            });
+            // JavaScript for dynamic filtering
+            document.addEventListener('DOMContentLoaded', function() {
+                const clubSelect = document.getElementById('clubSelect');
+                clubSelect.addEventListener('change', function() {
+                    // Submit the form when the club selection changes
+                    this.form.submit();
+                });
+                const resetButton = document.querySelector('.btn-reset');
+                resetButton.addEventListener('click', function() {
+                    clubSelect.value = ''; // Reset the select dropdown
+                    this.form.submit(); // Submit the form
+                });
+            });
+        </script>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>    
+        <style>
+        .title-section {
+        text-align: center;
+        margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 2.5em;
+            color: #3788D8; /* Adjust color as needed */
+            margin-bottom: 10px;
+        }   
+
+         /* Filter Form Styling */
+        .filter-form {
+            margin-bottom: 20px;
+            position: relative; /* Add position relative to enable absolute positioning for the dropdown */
+        }
+
+        .filter-form select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .filter-form select:hover {
+            border-color: #3788D8; /* Change border color on hover */
+        }
+
+        .filter-form button:hover {
+            background-color: #155785; /* Change background color on hover */
+        }
+
+        /* Dropdown Arrow Styling */
+        .filter-form::after {
+            content: '\25BC'; /* Unicode character for down arrow */
+            font-size: 12px;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none; /* Ensure the arrow doesn't interfere with clicking the select */
+        }
+
+        /* Dropdown Animation */
+        .filter-form select {
+            -webkit-appearance: none; /* Remove default arrow on Chrome/Safari */
+            -moz-appearance: none; /* Remove default arrow on Firefox */
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="#3788D8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px"><path d="M7 10l5 5 5-5H7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Add custom arrow SVG */
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 20px;
+            transition: all 0.3s;
+        }
+
+        .filter-form select:hover {
+            background-color: #f0f0f0; /* Change background color on hover */
+        }
+
+        /* Dropdown Animation */
+        .filter-form select:focus {
+            outline: none;
+            border-color: #3788D8; /* Change border color on focus */
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        .btn-reset {
+            position: absolute;
+            top: 55%;
+            right: 1170px; /* Adjust the distance from the right */
+            transform: translateY(-50%);
+            z-index: 1;
+            background-color:rgba(0, 0, 0, 0);
+            color:black;
+            border-radius: 5px;
+        }
+
+        /* Calendar and Reservation Details Styling */
+        .calendar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .calendar {
+            max-width: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .reservation-details {
+            flex-grow: 1;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3788D8;
+            color: #fff;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .month-year {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .today-btn {
+            padding: 8px 15px;
+            background-color: #fff;
+            color: #3788D8;
+            border: 2px solid #3788D8;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .today-btn:hover {
+            background-color: #3788D8;
+            color: #fff;
+        }
+
+        .weekdays {
+            display: flex;
+            background-color: #f0f0f0;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .day {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            color: #666;
+        }
+        .day-cell[data-toggle="tooltip"] {
+            position: relative;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            position: relative;
+        }
+
+        .day-cell {
+            text-align: center;
+            padding: 20px 15px;
+            background-color: #fff;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .day-cell:hover {
+            background-color: #f0f0f0;
+        }
+
+        .prev-month,
+        .next-month {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4em;
+            padding: 8px 15px;
+            color: #fff;
+        }
+
+        .prev-month:hover,
+        .next-month:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Reservation Details Styling */
+        .reservation-cards {
+            padding: 20px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #3788D8;
+            color: #fff;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-text {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-footer {
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+            border-radius: 0 0 10px 10px;
+            text-align: right;
+        }
+
+        .card-footer a:hover {
+            color: #155785;
+        }
+
+        .card-footer .btn {
+            color: #fff;
+            background-color: #3788D8;
+            border-color: #3788D8;
+        }
+
+        .card-footer .btn:hover {
+            color: #fff;
+            background-color: #155785;
+            border-color: #155785;
+        }
+
+        /* Reservations Count Styling */
+        .reservations-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: inline-block;
+            background-color: #0FA563;
+            color: #fff;
+            font-size: 0.8em;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* Tooltip Styling */
+        .tooltip-inner {
+            background-color: #0FA563;
+            color: #fff;
+        }
+
+        .tooltip.bs-tooltip-auto[x-placement^="top"] .arrow::before,
+        .tooltip.bs-tooltip-top .arrow::before {
+            border-top-color: #0FA563;
+        }
+
+        .has-reservations {
+            color: red;
+        }
+
+        </style>
+{% endblock %}
+{% block partners %}
+    
+    {% endblock %}
+    
+{% block footer %}
+<br><br>
+  <footer class="footer">
+    <div class="footer-section">
+        <div class="logo-and-paragraph">
+            <img src="{{ asset('Images/logo.png') }}" alt="Footer Logo">
+            <p>Copyrights MiCasa Homes and Properties</p>
+            <p>All rights reserved</p>
+        </div>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Company</h3>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Support</h3>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping Information</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+        </ul>
+    </div>
+</footer>
+{% endblock %}

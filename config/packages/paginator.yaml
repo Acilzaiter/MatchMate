@@ -1,0 +1,7 @@
+knp_paginator:
+    page_range: 5 # Adjust this value as needed
+    default_options:
+        page_name: page
+        sort_field_name: sort
+        sort_direction_name: direction
+        distinct: true

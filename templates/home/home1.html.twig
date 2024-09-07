@@ -1,0 +1,633 @@
+{# home.html.twig #}
+    
+    {% block stylesheets %}
+    <title>MatchMate</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Images/Ball.ico') }}">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+    /* Custom styles for sticky navbar */
+    .navbar {
+        position: fixed;
+        width: 100%;
+        height: 80px;
+        top: 0;
+        z-index: 1000;
+        transition: top 0.3s;
+        background-color: #ffffff;
+        border-bottom: 1px solid #cccccc;
+    }
+
+    .navbar-logo {
+        height: 100%;
+    }
+
+    .navbar-logo img {
+        height: 100%;
+        width: auto;
+    }
+
+    .navbar-items {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 20px;
+    }
+
+    .navbar-items li {
+        margin-left: 20px;
+    }
+
+    .navbar-items img {
+        margin-right: 8px;
+        width: 25px;
+        height: 25px;
+    }
+    .text-overlay span {
+    font-family: "Times New Roman", "Titres CS", serif;
+}
+
+
+    /* Responsive navbar styles */
+    @media (max-width: 768px) {
+        .navbar-items {
+            display: none;
+            position: absolute;
+            top: 60px;
+            background-color: #f9f9f9;
+            width: 100%;
+            text-align: center;
+        }
+
+        .navbar-items.show {
+            display: block;
+        }
+
+        .navbar-icons {
+            display: none;
+        }
+
+        .navbar .navbar-logo {
+            text-align: center;
+            width: 100%;
+        }
+
+        .navbar .navbar-logo img {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    }
+</style>
+    
+    
+    
+    {% endblock %}
+            {{ encore_entry_link_tags('app') }}
+</head>
+<body>
+    {% block body %}
+    <div id="popup-overlay" class="popup-overlay">
+    <div class="popup-content">
+        <p>Please login or register to access this feature.</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+    <title>MatchMate</title>
+   
+    <link rel="icon" type="image/x-icon" href="{{ asset('Images/Ball.ico') }}">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}">
+      <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="{{ asset('Images/logo.png') }}" alt="Logo">
+    </div>
+    <ul class="navbar-items">
+       <li>
+            <a href="/home">
+                <img src="{{ asset('Images/whitehome.png') }}" alt="Home Icon"> <!-- Change the path as needed -->
+                Home
+            </a>
+        </li>
+      {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <li>
+                <a href="/calendar">
+                    <img src="{{ asset('Images/whitecalendar.png') }}" alt="Calendar Icon"> <!-- Change the path as needed -->
+                    Booking Calendar
+                </a>
+            </li>
+        <li>
+                <a href="/feedback/new">
+                    <img src="{{ asset('Images/whitefeedback.png') }}" alt="Feedback Icon"> <!-- Change the path as needed -->
+                    Give Feedback
+                </a>
+            </li>
+      {% else %}
+          <li>
+                <a href="#" onclick="showAuthPopup()">
+                    <img src="{{ asset('Images/whitecalendar.png') }}" alt="Calendar Icon"> <!-- Change the path as needed -->
+                    Booking Calendar
+                </a>
+          </li>
+          <li>
+                <a href="#" onclick="showAuthPopup()">
+                    <img src="{{ asset('Images/whitefeedback.png') }}" alt="Feedback Icon"> <!-- Change the path as needed -->
+                    Give Feedback
+                </a>
+          </li>
+      {% endif %}
+    </ul>
+  
+      {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="btn-group" role="group" aria-label="User options">
+            <a  class="btn btn-outline-primary mr-2">{{ app.user.username }}</a>
+            <a  class="btn btn-outline-primary mr-2" href="{{ path('app_user_profile_player') }}">View Profile</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-outline-primary">Logout</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_dashboard') }}" class="btn btn-outline-primary">Dashboard</a>
+            {% endif %}
+        </div>
+      {% else %}
+        <li><a href="{{ path('app_login') }}" class="mr-2">Login</a><a href="{{ path('app_register') }}" style="margin-left: 30px;">Register</a></li>
+      {% endif %}
+      </nav>
+      <script>
+    function showAuthPopup() {
+        document.getElementById("popup-overlay").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("popup-overlay").style.display = "none";
+    }
+    </script>
+   <style>
+
+   .cart-icon-small {
+      width: 40px;
+      height: 40px;
+    }
+    /* Popup modal styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.popup-content p {
+    font-family: "Times New Roman", "Titres CS", serif;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.popup-content button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.popup-content button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Animation for fade in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Text overlay styles */
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #ffffff;
+    font-family: "Times New Roman", "Titres CS", serif;
+    font-size: 30px;
+}
+
+.text-overlay span {
+    display: block;
+    margin: 5px 0;
+    opacity: 0;
+    animation: fadeInText 1s ease-out forwards;
+}
+
+.text-overlay span:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.text-overlay span:nth-child(2) {
+    animation-delay: 1s;
+}
+
+/* Animation for text fade in */
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+  {% block m %}
+    
+    <div class="image-container">
+        <img src="{{ asset('Images/background.png') }}"> 
+
+        <div class="text-overlay">
+            <span>SEARCH BOOK</span>
+            <span>& HAVE FUN</span>
+        </div>
+        <div class="black-div">
+            <div class="content-wrapper">
+                <span>LOOKING FOR FIELD ?</span>
+            </div>
+            <div class="horizontal-container">
+                <div class="vertical-div">
+                    <label for="governorate" style="color:#000000;">.</label>
+                    <select class="form-control" id="governorateFilter">
+                        <option value="">Select Governorate</option>
+                        {% for governorate in governorates %}
+                            <option value="{{ governorate }}">{{ governorate }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="vertical-div">
+                    <button class="search-button" id="resetButton">Reset
+                        <i class="fas fa-undo"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="additional-div">
+        <div class="how-it-works">
+            <span>How it works</span>
+        </div>
+
+        <div class="horizontal-container">
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step1.png') }}" alt="Image 1">
+                </button>  
+              <div class="vertical-text">
+                <p class="title">Find a Listing</p>
+                <p>Find a space to practice sport and </p>
+                <p>leisure activities</p>
+              </div>
+            </div>
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step2.png') }}" alt="Image 1">
+                </button> 
+              <div class="vertical-text">
+                <p class="title">Set the Date</p>
+                <p>Book Online</p>
+              </div>
+            </div>
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step3.png') }}" alt="Image 1">
+                </button> 
+              <div class="vertical-text">
+                <p class="title">Move in !</p>
+                <p>Practicing sport and accessing</p> 
+                <p>leisure activities</p>
+              </div>
+            </div>
+          </div>
+    </div>
+   {% endblock %}
+  {% block t %}
+          <br>
+          <div>
+            <div class="clubs-container">
+                <div class="clubs" id="clubs-container">
+
+                    {% for club in clubs %}
+                        {% if club.idimage.first is not null %}
+                            {% set backgroundImageUrl = club.idimage.first.url %}
+                            <div class="club" style="background-image: url('{{ backgroundImageUrl }}');">
+                                <div class="club-content">
+                                    <div class="text-box">
+                                        <h2><i class="fas fa-building" style="color: blue;"></i> {{ club.name }}</h2>
+                                        <h3><i class="fas fa-map-marker-alt" style="color: green;"></i> Governorate: {{ club.governorate }}</h3>
+                                        <h3><i class="fas fa-city" style="color: red;"></i> City: {{ club.city }}</h3>
+                                        {% if club.stadiums|length > 0 %}
+                                            <ul class="stadiums">
+                                                {% for stadium in club.stadiums %}
+                                                    <li><h3><i class="far fa-futbol" style="color: orange;"></i> Name: {{ stadium.reference }}</h3></li>
+                                                    <li><h3><i class="fas fa-money-bill" style="color: purple;"></i> Price: {{ stadium.Price }}</h3></li>
+                                                {% endfor %}
+                                            </ul>
+                                            <h4>{{ club.description }}</h4>
+                                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                            <a href="{{ path('app_stade', {'id': club.id}) }}" class="book-now-button"><i class="fas fa-calendar-plus"></i> Book Now</a>
+                                            {% endif %}
+                                            
+                                        {% else %}
+                                            <p>No stadium associated with this club.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <br>
+            <script>
+            function showAuthPopup() {
+                document.getElementById("popup-overlay").style.display = "flex";
+            }
+
+            function closePopup() {
+                document.getElementById("popup-overlay").style.display = "none";
+            }
+            </script>
+      <style>
+      /* Button Styles */
+        .book-now-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .book-now-button:hover {
+            background-color: #45a049;
+            color: white;
+        }
+
+    .clubs-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Ensure clubs are displayed in a single row */
+    }
+
+    .clubs {
+        display: flex; /* Use flexbox for horizontal layout */
+        flex-wrap: nowrap; /* Prevent wrapping */
+    }
+
+    .club {
+        display: inline-block; /* Ensure clubs are displayed inline */
+        vertical-align: top; /* Align clubs at the top */
+        width: 450px;
+        height: 340px; 
+        margin-right: 20px; /* Add some spacing between clubs */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden; /* Hide overflowing content */
+    }
+
+
+    .club h2 {
+        margin-top: 0;
+    }
+
+    .club::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background-size: cover;
+        background-position: center center; /* Center the background image horizontally and vertically */
+        border-radius: 5px;
+        opacity: 0.5; /* Adjust the opacity of the background image */
+    }
+
+    .club-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 50%; /* Adjust the width of the text box */
+        padding: 20px;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.8); /* White background with transparency */
+        word-wrap: break-word; /* Ensures long words wrap to the next line */
+        hyphens: auto; /* Adds hyphens when breaking words, if supported */
+        overflow-wrap: break-word; /* Ensures long words wrap within the container */
+        text-overflow: ellipsis; /* Adds ellipsis (...) for overflowing text */
+      }
+
+      .club-content h2, .club-content h3, .club-content h4, .club-content p {
+          font-family: "Times New Roman", "Titres CS", serif;
+          font-size: 18px;
+          color: #333;
+          line-height: 1.4; /* Adjust line height for better readability */
+          white-space: normal; /* Allows text to wrap normally */
+          overflow: hidden; /* Ensures content doesn't overflow */
+          text-overflow: ellipsis; /* For single-line truncation */
+      }
+
+
+    /* Add styling for stadium list if needed */
+    .stadiums {
+        list-style: none;
+        padding: 0;
+    }
+
+    .stadiums li {
+        margin-bottom: 10px;
+    }
+
+    /* Add styling for scroll buttons if needed */
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        z-index: 1;
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
+
+.club-content h2, .club-content h3, .club-content h4, .club-content p {
+    font-family: "Times New Roman ","Titres CS",serif; /* Replace with your desired font-family */
+    font-size: 18px;
+    color: #333; 
+}
+
+.fas, .fa {
+    font-size: 20px; 
+}
+
+.club-content {
+    font-family: "Times New Roman ","Titres CS",serif; 
+    font-size: 24px; 
+}
+
+      </style>
+      </div>
+  {% endblock %}
+
+     {% block partners %}  
+    <div class="partners-section">
+      <div class="horizontal-div1">
+        
+          <img src="{{ asset('Images/tel.png') }}" alt="Partner Logo">
+          <div class="vertical-div1">
+              <h2>Manage your schedule from your Mobile</h2>
+              <p>Download the app to manage your schedule , keep track of your bookings and stay on track with the progress</p>
+              <p>Get the app</p>
+              <img src="images/appstore.png" alt="Image 1">
+              
+          </div>
+      </div>
+  </div>
+  {% endblock %}
+  
+{% block footer %}
+
+  <footer class="footer">
+    <div class="footer-section">
+        <div class="logo-and-paragraph">
+            <img src="Images/logo.png" alt="Footer Logo">
+            <p>Copyrights MiCasa Homes and Properties</p>
+            <p>All rights reserved</p>
+        </div>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Company</h3>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Support</h3>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping Information</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+        </ul>
+    </div>
+</footer>
+{% endblock %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Add sticky class to navbar on scroll
+      var prevScrollpos = window.pageYOffset;
+      window.onscroll = function() {
+        var currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+          document.getElementById("navbar").style.top = "0";
+        } else {
+          document.getElementById("navbar").style.top = "-100px"; // Adjust this value as needed
+        }
+        prevScrollpos = currentScrollPos;
+      };
+
+      // Toggle navbar items for responsive design
+      $(".navbar-logo").click(function() {
+        $("#navbar-items").toggleClass("show");
+      });
+    });
+  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const governorateFilter = document.getElementById('governorateFilter');
+            const clubsContainer = document.getElementById('clubs-container');
+            const searchButton = document.querySelector('.search-button');
+
+            governorateFilter.addEventListener('change', function () {
+                const selectedGovernorate = governorateFilter.value.toLowerCase();
+
+                Array.from(clubsContainer.children).forEach(club => {
+                    const clubGovernorate = club.querySelector('h3:nth-of-type(1)').textContent.toLowerCase();
+                    
+                    if (selectedGovernorate === '' || clubGovernorate.includes(selectedGovernorate)) {
+                        club.style.display = 'block';
+                    } else {
+                        club.style.display = 'none';
+                    }
+                });
+            });
+
+            searchButton.addEventListener('click', function () {
+                // Reset the filter
+                governorateFilter.value = '';
+                
+                // Show all clubs
+                Array.from(clubsContainer.children).forEach(club => {
+                    club.style.display = 'block';
+                });
+            });
+        });
+        </script>
+
+  {% endblock %}
+    {% endblock %}
+    
+ 
+</body>

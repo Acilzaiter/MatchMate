@@ -1,0 +1,20 @@
+<div style="font-family: Arial, sans-serif; background-color: #222; color: #fff; padding: 20px; border-radius: 10px;">
+    <h1 style="text-align: center; margin-bottom: 20px;">New Club Created!</h1>
+    <div style="margin-bottom: 20px;">
+        <h2 style="margin-bottom: 10px;"><i style="color: #F39C12;" class="fas fa-club"></i> Club Details</h2>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li><strong><i style="color: #3498DB;" class="fas fa-signature"></i> Name:</strong> {{ club.name }}</li>
+            <li><strong><i style="color: #27AE60;" class="far fa-clock"></i> Start Time:</strong> {{ club.startTime|date('H:i:s') }}</li>
+            <li><strong><i style="color: #E74C3C;" class="far fa-clock"></i> End Time:</strong> {{ club.endTime|date('H:i:s') }}</li>
+            <li><strong><i style="color: #8E44AD;" class="fas fa-map-marker-alt"></i> Governorate:</strong> {{ club.governorate }}</li>
+            <li><strong><i style="color: #F1C40F;" class="fas fa-city"></i> City:</strong> {{ club.city }}</li>
+        </ul>
+    </div>
+    <div>
+        <h2 style="margin-bottom: 10px;"><i style="color: #D35400;" class="fas fa-user"></i> User Details</h2>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li><strong><i style="color: #3498DB;" class="far fa-envelope"></i> Email:</strong> {{ user.email }}</li>
+            <li><strong><i style="color: #27AE60;" class="far fa-user"></i> Name:</strong> {{ user.firstname }} {{ user.lastname }}</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+
+
+
+<style>
+    .btn-submit,
+    .btn-delete {
+        padding: 5px 10px; /* Adjust the padding to change the button size */
+        background-color: #007bff; /* Set the background color */
+        color: #fff; /* Set the text color */
+        border: none; /* Remove the border */
+        border-radius: 4px; /* Add some border radius for rounded corners */
+    }
+
+    .btn-submit:hover,
+    .btn-delete:hover {
+        background-color: #0056b3; /* Change background color on hover */
+    }
+
+    .btn-submit img,
+    .btn-delete img {
+        width: 20px; /* Adjust the width of the image */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 5px; /* Add some spacing between the image and text */
+    }
+</style>
+
+<form method="post" action="{{ path('app_stadium_delete', {'reference': stadium.reference}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ stadium.reference) }}">
+    <button type="submit" class="btn btn-delete">
+        <img src="{{ asset('Images/delete.png') }}" alt="Delete">
+        Delete
+    </button>
+</form>
+

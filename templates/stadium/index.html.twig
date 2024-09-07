@@ -1,0 +1,42 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block title %}Stadium index{% endblock %}
+
+{% block body %}
+    <h1>Stadium index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Reference</th>
+                <th>Height</th>
+                <th>Width</th>
+                <th>Price</th>
+                <th>Rate</th>
+                <th>Maintenance</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for stadium in stadia %}
+            <tr>
+                <td>{{ stadium.reference }}</td>
+                <td>{{ stadium.height }}</td>
+                <td>{{ stadium.width }}</td>
+                <td>{{ stadium.price }}</td>
+                <td>{{ stadium.rate }}</td>
+                <td>{{ stadium.maintenance }}</td>
+                <td>
+                    <a href="{{ path('app_stadium_show', {'reference': stadium.reference}) }}">show</a>
+                    <a href="{{ path('app_stadium_edit', {'reference': stadium.reference}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

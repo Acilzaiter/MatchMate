@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Simple Booking{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="title">Simple Booking</h1>
+
+        <div class="date-picker-container">
+            <label for="selectedDate" class="label">Select a Date:</label>
+            <input type="date" id="selectedDate" class="date-picker">
+        </div>
+
+        <div id="selectedDateTime" class="fade-in" style="display: none;">
+            <h2 class="subtitle">Selected Date and Time:</h2>
+            <p><strong class="info-label">Date:</strong> <span id="displaySelectedDate" class="info-text"></span></p>
+            <p><strong class="info-label">Time Slot:</strong> <span id="displaySelectedSlot" class="info-text"></span></p>
+            
+            <div id="timeSlots" class="fade-in">
+                <!-- Time slots will be inserted here dynamically -->
+            </div>
+            <div class="validate-button-container fade-in">
+                <a href="{{ path('app_reservation_new', {'stadiumId': stadiumId}) }}" class="validate-button">
+                    <img src="{{ asset('Images/calendar.png') }}" class="icon">Validate Booking
+                </a>
+            </div>
+        </div>
+
+        <div id="bookingConfirmation" class="fade-in" style="display: none;">
+            <p class="confirmation-text">Booking successful!</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch available time slots for the selected date
+            function fetchTimeSlots(selectedDate, stadiumId) {
+                $.get("/fetch_time_slots/" + stadiumId + "/" + selectedDate, function(data) {
+                    $("#timeSlots").html(data);
+                });
+            }
+
+            // Event listener for date selection
+            $("#selectedDate").on("change", function() {
+                var selectedDate = $(this).val();
+                var stadiumId = "{{ stadiumId }}"; // Get the stadiumId from the PHP variable
+                fetchTimeSlots(selectedDate, stadiumId);
+                $("#selectedDateTime").show();
+                $("#displaySelectedDate").text(selectedDate);
+            });
+
+            // Event listener for selecting a time slot
+            $(document).on("click", ".time-slot", function() {
+                var selectedSlot = $(this).text();
+                $("#displaySelectedSlot").text(selectedSlot);
+            });
+
+            // Event listener for validating the booking
+            $("#validateBooking").on("click", function() {
+                var selectedDate = $("#selectedDate").val();
+                var selectedSlot = $("#displaySelectedSlot").text();
+                // You can add your logic here to validate and confirm the booking
+                // For now, let's just display a confirmation message
+                $("#bookingConfirmation").show();
+            });
+        });
+    </script>
+{% endblock %}
+{% block style %}
+    <style>
+    /* General styles */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .subtitle {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+
+    .label {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .info-label {
+        font-weight: bold;
+    }
+
+    .info-text {
+        margin-left: 5px;
+    }
+
+    .date-picker-container {
+        margin-bottom: 20px;
+    }
+
+    .date-picker {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+
+    .confirmation-text {
+        text-align: center;
+        font-size: 20px;
+        color: #4CAF50;
+    }
+
+    .fade-in {
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+    }
+
+    @keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-moz-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-webkit-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-o-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    @-ms-keyframes fadeIn {
+        0% {opacity:0;}
+        100% {opacity:1;}
+    }
+
+    .validate-button-container {
+        text-align: center;
+        margin-top: 20px;
+        }
+
+    .validate-button {
+        background-color: #3788D8;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        display: inline-flex;
+        align-items: center;
+        border-bottom: none; /* Add this line to remove the border */
+        decoration : none;
+    }
+
+    .validate-button img {
+        width: 24px; /* Adjust the width of the image */
+        height: 24px; /* Adjust the height of the image */
+        margin-right: 10px; /* Add some spacing between the image and text */
+    }
+
+    .validate-button:hover {
+        background-color: #1e6bd6; /* Adjust the hover background color */
+    }
+
+</style>
+
+{% endblock %}

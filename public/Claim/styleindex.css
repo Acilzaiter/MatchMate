@@ -1,0 +1,73 @@
+/* Styles pour le formulaire "Claim index" */
+.claim-index-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.claim-index-table th, .claim-index-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.claim-index-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: center;
+}
+
+.claim-index-table td {
+    text-align: center;
+}
+
+.claim-index-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.claim-index-table tr:hover {
+    background-color: #e9e9e9;
+}
+.create-new-button {
+    background-color: #6c757d; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Supprimer le soulignement du lien */ 
+}
+.create-new-button {
+    background-color: #99999a; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Supprimer le soulignement du lien */ 
+}
+.icon-link {
+    color: #888888; /* Couleur gris */
+    margin-right: 5px; /* Espacement à droite */
+}
+.claim-index-title {
+    text-align: center;
+    font-size: 46px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #333333, #32A071, #d8d8d8); /* Dégradé de couleur gris-vert-gris */
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: waveText 2s infinite linear alternate; /* Animation de vague */
+}
+
+@keyframes waveText {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 100% center;
+    }
+}
+
+

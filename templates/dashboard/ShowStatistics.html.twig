@@ -1,0 +1,303 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block content %}
+    <div class="card" style="height:500px; width:450px">
+        <div class="card-body chart-container">
+            <h4 class="card-title">Statistiques des evenement par nombre participants</h4>
+            <canvas id="user-role-chart" height="320" width="320"></canvas>
+        </div>
+    </div>
+    <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('user-role-chart').getContext('2d');
+            var labels = {{ labels|raw }};
+            var data = {{ data|raw }};
+
+            // Convert the data into a format understandable by Chart.js
+            var chartData = {
+            labels: labels,
+            datasets: [{
+            data: data,
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)'
+            ],
+            borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+        };
+
+            var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: chartData,
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+            duration: 0 // Disable animations
+        },
+            tooltips: {
+            callbacks: {
+            label: function(tooltipItem, data) {
+            return data.labels[tooltipItem.index]; // Return label instead of percentage
+        }
+        }
+        }
+        }
+        });
+        });
+
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+   
+   
+
+
+{% block stylesheets %}
+  
+  
+    <style>
+    .container {
+            display: flex;
+            align-items: center;
+        }
+
+        .vertical-line {
+            border-left: 3px solid black; /* Adjust the width and color as needed */
+            height: 35px; /* Adjust the height as needed */
+            margin-right: 10px; /* Adjust the spacing between the line and the text */
+            margin-top: -2px; /* Adjust to move the line a bit above the text */
+        }
+
+        .text-container {
+            display: flex;
+            align-items: center; /* Center the text horizontally */
+        }
+
+        .general {
+            font-size: 24px; /* Adjust the font size of "General" */
+            font-weight: bold; /* Make "General" bold */
+            margin-right: 13px; /* Add some space between "General" and "Information" */
+        }
+
+        .information {
+            font-size: 21px; /* Adjust the font size of "Information" */
+        }
+
+ 
+
+      
+   
+     .content {
+        margin-top: 100px; /* Adjusted margin-top to make space for the header */
+        margin-left: 200px; /* Adjusted margin-left to make space for the sidebar */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bloc {
+        margin-top: 20px; /* Add margin to create space between the form and the block */
+    }
+
+    .content form {
+        margin-bottom: 20px; /* Add margin to create space between the form and the table */
+    }
+
+    .btn-link {
+        margin-top: 20px; /* Add margin between the table and the "Add Event" button */
+    }
+    .btn-back {
+        padding: 5px 10px; /* Adjust the padding to change the button size */
+    }
+.table {
+      width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-top: -150px;
+    margin-left: -330px;
+
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Additional table styles */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Styling specific columns */
+.table th:first-child,
+.table td:first-child {
+    text-align: left;
+}
+
+/* Styling specific rows */
+.table tbody tr.highlighted {
+    background-color: #ffcc80; /* Example color for highlighted rows */
+}
+
+
+.table .btn-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #28b463; /* Couleur de fond des boutons */
+    color: #fff; /* Couleur du texte */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Supprimer le soulignement */
+    transition: background-color 0.3s ease; /* Animation de transition fluide */
+}
+
+.table .btn-link:hover {
+    background-color: #218838; /* Couleur de fond des boutons au survol */
+}
+
+/* Alignement des éléments dans la colonne des actions */
+.table td:last-child {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacement entre les éléments */
+}
+/* Style pour le bouton "edit" (vert) */
+/* Style for the edit button (green) */
+.edit-btn {
+    background-color: #28a745; /* Background color */
+    color: #fff; /* Text color */
+}
+
+.edit-btn:hover {
+    background-color: #218838; /* Background color on hover */
+}
+
+/* Style for the delete button (red) */
+.delete-btn {
+    background-color: #dc3545; /* Background color */
+    color: #fff; /* Text color */
+}
+
+.delete-btn:hover {
+    background-color: #c82333; /* Background color on hover */
+}
+
+/* Style for the add task button (blue) */
+.add-task-btn {
+    background-color: #007bff; /* Background color */
+    color: #fff; /* Text color */
+}
+
+.add-task-btn:hover {
+    background-color: #0056b3; /* Background color on hover */
+}
+
+/* Style for the show tasks button (another blue) */
+.show-tasks-btn {
+    background-color: #17a2b8; /* Background color */
+    color: #fff; /* Text color */
+}
+
+.show-tasks-btn:hover {
+    background-color: #138496; /* Background color on hover */
+}
+
+/* Style for the link buttons */
+.table .btn-link {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Green button for edit */
+.table .edit-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Red button for delete */
+.table .delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Blue button for add task */
+.table .add-task-btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Blue button for show tasks */
+.table .show-tasks-btn {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+/* Hover styles for link buttons */
+.table .btn-link:hover {
+    background-color: #ccc;
+    color: #333;
+}
+
+
+
+    .btn-back img {
+        width: 20px; /* Adjust the width of the image */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 5px; /* Add some spacing between the image and text */
+    }
+
+
+    .card-body.chart-container {
+        height: 400px; /* Adjusted height */
+    }
+
+    #user-role-chart {
+        height: 100%; /* Set canvas height to fill its container */
+        width: 100%; /* Set canvas width to fill its container */
+    }
+
+
+/* Positioning each circle in the pie chart */
+
+
+
+</style>
+ {% endblock %}

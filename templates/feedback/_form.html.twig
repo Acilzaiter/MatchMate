@@ -1,0 +1,67 @@
+{{ form_start(form) }}
+<div class="form-group">
+    {{ form_label(form.idReservation) }}
+    {{ form_widget(form.idReservation) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.responseQuestion1) }}
+    {{ form_widget(form.responseQuestion1) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.responseQuestion2) }}
+    {{ form_widget(form.responseQuestion2) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.responseQuestion3) }}
+    {{ form_widget(form.responseQuestion3) }}
+</div>
+
+<div class="button-container">
+    <button class="btn search-button" type="submit">
+        <img src="{{ asset('Images/confirm2.gif') }}" alt="Confirm Icon" style="width: 20px; height: 20px; margin-left: 5px;">
+         {{ button_label|default('Submit') }}
+    </button>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{{ form_end(form) }}
+
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        color: #0fa563;
+        font-family: 'Lato', sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: default;
+        margin-top: 5px;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+
+    button.btn {
+        width: 100px;
+        height: 50px;
+        margin-top: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button.btn:hover {
+        background-color: #45a049;
+    }
+</style>

@@ -1,0 +1,28 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block title %}New Stadium{% endblock %}
+
+{% block content %}
+    <h1>Create new Stadium</h1>
+
+    {{ include('stadium/_form.html.twig') }}
+
+
+
+  <style>
+    .btn-back {
+        padding: 5px 10px; /* Adjust the padding to change the button size */
+    }
+
+    .btn-back img {
+        width: 20px; /* Adjust the width of the image */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 5px; /* Add some spacing between the image and text */
+    }
+</style>
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('formcss/formstyle.css') }}">
+{% endblock %}
+
+{% endblock %}

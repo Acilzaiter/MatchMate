@@ -1,0 +1,108 @@
+{% extends 'home/Base.html.twig' %}
+
+ {% block m%}
+
+
+ {% endblock %}
+  {% block t %}
+
+
+      <div class="content" style="position:relative;top:100px;">
+          <div class="bloc">
+              <h1 style="position:relative; top:10px; right:-130px;">Events</h1>
+              {% if qrCode %}
+                  <img src="{{ qrCode }}" alt="qr-code">
+              {% endif %}
+
+              <br><br>
+              <br>
+              <br>
+
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+  {% endblock %}
+      {% block partners %}
+
+      {% endblock %}
+    {% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const header = document.querySelector(".bloc h1");
+        const text = header.textContent.trim();
+        header.textContent = "";
+
+        for (let i = 0; i < text.length; i++) {
+            const span = document.createElement("span");
+            span.textContent = text[i];
+            span.style.animation = `slideIn 1s ease forwards ${i * 0.1}s`; // Apply animation to each letter
+            header.appendChild(span);
+        }
+
+        header.style.opacity = "1"; // Show the header after creating spans
+    });
+
+    function likeEvent(eventId) {
+        // Ask for confirmation
+        const confirmation = confirm("Are you sure you want to like this event?");
+
+        if (!confirmation) {
+            return; // If user cancels, do nothing
+        }
+
+        fetch('/event/' + eventId + '/like', {
+            method: 'POST',
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Parse the JSON response
+            } else {
+                throw new Error('Failed to like event');
+            }
+        })
+        .then(data => {
+            // Handle the JSON response data
+            console.log(data.message); // Log the success message
+            // You can update the UI or show a message to the user here
+        })
+        .catch(error => {
+            console.error('Error:', error.message); // Log any errors
+            // You can handle errors here, such as displaying an error message to the user
+        });
+    }
+
+    // Add onchange event listener to the dropdown
+document.getElementById('filterDropdown').addEventListener('change', function() {
+    var selectedFilter = this.value;
+    if (selectedFilter) {
+        // Set the selected filter value in the hidden input field
+        document.getElementById('filterValue').value = selectedFilter;
+        // Submit the form
+        document.getElementById('filterForm').submit();
+    }
+});
+     function showQRCode(qrCodeUrl, eventId) {
+    // Get the img tag corresponding to the event card
+    const qrCodeImg = document.querySelector(`.card[data-event-id="${eventId}"] .qr-code-img`);
+
+    // Set the src attribute of the img tag to the QR code URL
+    qrCodeImg.src = qrCodeUrl;
+
+    // Display the img tag
+    qrCodeImg.style.display = 'block';
+}
+</script>
+{% endblock %}
+
+
+

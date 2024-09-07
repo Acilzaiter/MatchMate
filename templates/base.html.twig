@@ -1,0 +1,15 @@
+{# base.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MatchMate</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Images/Ball.ico') }}">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}"> 
+    {% block stylesheets %}{% endblock %}
+            {{ encore_entry_link_tags('app') }}
+</head>
+<body>
+    {% block body %}{% endblock %}
+</body>
+</html>

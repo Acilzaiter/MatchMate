@@ -1,0 +1,252 @@
+{# templates/stadium/_form.html.twig #}
+
+{{ form_start(form) }}
+    {{ form_errors(form) }} {# Render global form errors if any #}
+    <div class="form-group">
+        {{ form_label(form.reference) }}
+        {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+        {% if form_errors(form.reference) %}
+            <div class="error-message">
+                {{ form_errors(form.reference) }}
+            </div>
+        {% endif %}
+    </div>
+<div class="image-container">
+    <!-- Image goes here -->
+    <img src="{{ asset('Images/testfield.png') }}" alt="Image Description">
+</div>
+    <div class="form-group">
+                <div class="form-group">
+                    {{ form_label(form.height) }}
+                    {{ form_widget(form.height, {'attr': {'class': 'form-control','placeholder': 'Height of the Stadium'}}) }}
+                    {% if form_errors(form.height) %}
+                        <div class="error-message">
+                            {{ form_errors(form.height) }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.width) }}
+                    {{ form_widget(form.width, {'attr': {'class': 'form-control','placeholder': 'Width of the Stadium'}})  }}
+                    {% if form_errors(form.width) %}
+                        <div class="error-message">
+                            {{ form_errors(form.width) }}
+                        </div>
+                    {% endif %}
+                </div>
+        </div>
+
+    <div class="form-group">
+        {{ form_label(form.price) }}
+        {{ form_widget(form.price, {'attr': {'class': 'form-control','placeholder': '90 Minutes/Price'}})  }}
+        {% if form_errors(form.price) %}
+            <div class="error-message">
+                {{ form_errors(form.price) }}
+            </div>
+        {% endif %}
+    </div>
+ 
+{# Display existing images for editing #}
+{% if stadium.idimage is not empty %}
+    <div class="existing-images">
+        {% for image in stadium.idimage %}
+            <div class="existing-image" data-image-id="{{ image.id }}">
+                <img src="{{ asset(image.url) }}" alt="{{ image.name }}">
+                <input type="checkbox" name="removed_images[]" value="{{ image.id }}">
+                <label>Remove</label>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="form-group" id="image-preview">
+    <!-- Selected image will be displayed here -->
+    {% if form.images.vars.data is not empty %}
+        {% for file in form.images.vars.data %}
+            <div class="existing-image">
+                <img src="{{ asset('Images/' ~ file.filename) }}" alt="Selected Image" style="max-width: 100px;">
+                <input type="checkbox" name="removed_images[]" value="{{ file.filename }}">
+                <label>Remove</label>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+
+<div class="form-group">
+    {{ form_label(form.images) }}
+    {{ form_widget(form.images, {'attr': {'class': 'form-control-file', 'onchange': 'previewImage(event)'}}) }}
+{% if form_errors(form.images) %}
+    <div class="error-message">
+        {{ form_errors(form.images) }}
+    </div>
+{% endif %}</div>
+
+<style>
+    .existing-image {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .existing-image img {
+        max-width: 100px; /* Adjust the width as needed */
+        height: auto;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-inline .form-group {
+    display: inline-block;
+    margin-right: 10px; /* Adjust margin between fields as needed */
+}
+.image-container {
+    text-align: center;
+    margin-left: -660px; /* Adjust the left margin to move the container to the left */
+}
+
+.image-container img {
+    width: 500px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+        margin-top: 20px; /* Adjust the margin on top of the picture */
+
+    margin-bottom: 20px; /* Adjust the margin as needed */
+}
+
+
+
+
+    .remove-image {
+        display: block;
+        margin-top: 5px;
+        color: red;
+        cursor: pointer;
+    }
+
+    .btn-submit {
+        padding: 10px 20px; /* Adjust the padding to change the button size */
+    }
+
+    .btn-submit img {
+        width: 20px; /* Adjust the width of the image */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 5px; /* Add some spacing between the image and text */
+    }
+    /* CSS to style the error message */
+.error-message {
+    color: #d9534f; /* Red color for error messages */
+    font-size: 14px; /* Adjust the font size */
+    margin-top: 5px; /* Add some space above the error message */
+}
+
+</style>
+
+
+
+    <button type="submit" class="btn btn-primary btn-submit">
+    <img src="{{ asset('Images/ballin.png') }}" alt="Save">
+    {{ button_label|default('Save') }}
+</button>
+
+<button type="button" onclick="window.location.href='{{  path('app_club_stadiums', {'id': stadium.idclub.id}) }}'" class="btn btn-primary btn-back">
+    Return
+    <img src="{{ asset('Images/return.png') }}" alt="Back to list">
+</button>
+
+{{ form_end(form) }}
+
+<script>
+  function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('image-preview');
+
+    if (input.files && input.files.length > 0) {
+        for (let i = 0; i < input.files.length; i++) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Create img element for preview
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = 'Selected Image';
+                img.className = 'existing-image';
+                img.style.maxWidth = '100px'; // Adjust the width as needed
+                preview.appendChild(img);
+
+                // Create remove button
+                const removeButton = document.createElement('a');
+                removeButton.href = '#';
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = function(event) {
+                    event.preventDefault();
+
+                    // Send a request to the server to delete the image from the database
+                    const imageId = getImageId(this); // Get the image ID
+                    deleteImage(imageId);
+
+                    // Remove the image and the remove button from the preview
+                    preview.removeChild(img);
+                    preview.removeChild(removeButton);
+                };
+                preview.appendChild(removeButton);
+            };
+            reader.readAsDataURL(input.files[i]);
+        }
+    }
+}
+
+// Function to get the image ID from the remove button's data attribute
+function getImageId(removeButton) {
+    return removeButton.getAttribute('data-image-id');
+}
+
+// Function to send a request to the server to delete the image from the database
+// Function to send a request to the server to delete the image from the database
+function deleteImage(imageId) {
+    fetch('{{ path('remove_image') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image_id: imageId }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.error('Failed to delete image from the database.');
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting image:', error);
+    });
+}
+
+
+// Remove image functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const removeLinks = document.querySelectorAll('.remove-image');
+
+    removeLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const imageContainer = this.parentNode;
+            const imageId = imageContainer.dataset.imageId;
+            
+            // Remove the image container from the preview
+            imageContainer.remove();
+
+            // Remove the corresponding file input if the image was selected
+            const fileInput = document.querySelector('input[type="file"]');
+            if (fileInput) {
+                const selectedFiles = fileInput.files;
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    if (selectedFiles[i].getAttribute('data-image-id') === imageId) {
+                        fileInput.value = ''; // Clear the file input
+                        break;
+                    }
+                }
+            }
+        });
+    });
+});
+</script>
+
+

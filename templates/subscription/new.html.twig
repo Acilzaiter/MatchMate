@@ -1,0 +1,175 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block title %}New Subscription{% endblock %}
+
+{% block content %}
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <h1 class="section-title">Choose Your Subscription Plan</h1>
+
+    <div class="row">
+        {% for key, offer in offers %}
+            <div class="col-md-6">
+                <div class="price-card {% if key == 0 %}bronze{% elseif key == 1 %}silver{% elseif key == 2 %}gold{% endif %}">
+                    <div class="price-header">
+                        <h2>{{ offer.name }}</h2>
+                    </div>
+                    <div class="price-body">
+                        <div class="price-details">
+                            <h1 class="price">{{ offer.price }} $ </h1>
+                            <ul class="pricing-offers">
+                                <li>{{ offer.text }}</li>
+                                <li>Allowed Clubs: {{ offer.nbrClub }}</li>
+                            </ul>
+{# <a href="{{ path('app_subscription_create', {'offerId': offer.id}) }}" class="btn btn-primary btn-mid">Choose {{ offer.name }}</a> #}
+                           <form action="{{ path('checkoutSub', {'offerId': offer.id}) }}" method="POST">
+    <button type="submit" id="checkout-button" class="btn btn-primary btn-lg">Checkout</button>
+</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+<button type="button" onclick="window.location.href='{{ path('app_club_index') }}'" class="btn btn-primary btn-back">
+    Return
+    <img src="{{ asset('Images/return.png') }}" alt="Back to list">
+</button>
+    <style>
+    /* Custom CSS for Pricing Cards */
+
+/* Custom CSS for Section Title */
+/* Custom CSS for the Return Button */
+
+.btn-back {
+    background-color: #0cc652; /* Greenish color */
+    color: #fff; /* White text color */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #007e3a; /* Darker greenish color on hover */
+}
+
+.btn-back img {
+    width: 20px; /* Adjust the width of the image */
+    margin-left: 5px; /* Add some spacing between text and image */
+    vertical-align: middle; /* Align the image vertically with the text */
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #0cc652; /* Dark greenish color */
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
+}
+
+.price-card {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 30px;
+}
+
+.price-header {
+    flex: 0 0 30%; /* Set width for the header section */
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Center align content */
+    align-items: center; /* Center align content */
+}
+
+.price-header h2 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+}
+
+.price-body {
+    flex: 1; /* Allow body section to grow */
+    padding: 20px;
+}
+
+.price-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.price-details {
+    padding-left: 20px; /* Add spacing between image and details */
+}
+
+.price {
+    font-size: 36px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.pricing-offers {
+    color: #fff;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.pricing-offers li {
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #00aacc;
+    border-color: #00aacc;
+    font-size: 16px;
+    border-radius: 50px;
+    padding: 10px 40px;
+}
+
+.btn-primary:hover {
+    background-color: #007399;
+    border-color: #007399;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: #fff;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 50px;
+    padding: 10px 40px;
+    margin-top: 30px;
+}
+
+.btn-secondary:hover {
+    background-color: #fff;
+    color: #0cc652;
+}
+
+/* Custom colors for different offers */
+.price-card.bronze {
+    background: #cd7f32; /* Bronze color */
+}
+
+.price-card.silver {
+    background: #c0c0c0; /* Silver color */
+}
+
+.price-card.gold {
+    background: #ffd700; /* Gold color */
+}
+
+    </style>
+{% endblock %}

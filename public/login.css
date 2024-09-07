@@ -1,0 +1,53 @@
+
+.custom-background {
+    background-color: #e2dcdc; /* Replace with your desired background color */
+    padding: 20px; /* Optional: Add padding for spacing */
+}
+
+.containerr {
+    display: flex;
+    justify-content: space-between; /* Align items horizontally */
+    align-items: center; /* Align items vertically */
+    height: 100vh; /* Set the container height to full viewport height */
+}
+.centered-div {
+    width: 100%; /* Set the width of the div */
+    height: 105vh;
+    margin: 0px auto; /* Set left and right margins to auto */
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    
+    
+}
+
+.image {
+   
+    margin-right: 50px;
+    background-image: url('Images/loginImg.png');
+    background-size: cover;
+    background-position: center;
+    width: 80%; /* Ensures the div fills the width of its container */
+    height: 90%;
+}
+
+.content {
+    width: 60%;
+    margin : auto 0 ; 
+
+}
+label {
+    padding: 10px 0px;
+}
+
+.btn {
+    padding: 9px 50px;
+    margin-left: 19rem;
+    background-color: rgb(23, 138, 23);
+    
+}
+
+.resgister_link {
+    text-decoration: none;
+    font-size: 1.1em;
+}

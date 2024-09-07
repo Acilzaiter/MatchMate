@@ -1,0 +1,115 @@
+    <div class="container">
+        <div id="timeSlots" class="reservation-cards-container">
+            <div class="reservation-cards">
+                <h1>Available Time Slots</h1>
+                {% for slot in slots %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Time Slot</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Start Time:</strong> {{ slot.start }}</p>
+                            <p class="card-text"><strong>End Time:</strong> {{ slot.end }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    
+    {# <style>
+    .reservation-cards-container {
+        max-height: 600px; /* Adjust the max height as needed */
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding-right: 15px; /* Add right padding to compensate for scrollbar width */
+        position: absolute; /* Position for the scrollbar container */
+        right: 20px; /* Position the container to the right side */
+        top: 0; /* Align to the top */
+        width: 300px; /* Set the width of the container */
+        border-radius: 15px; /* Rounded corners */
+        transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
+        }
+
+        .hover-scroll {
+            position: relative; /* Make the container a positioning context for the scrollbar */
+            margin-right: 335px; /* Adjust the margin to accommodate the width of the reservation details container */
+        }
+
+
+        /* Customized Scrollbar */
+        .reservation-cards-container::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+            background-color: #f9f9f9; /* Background color */
+        }
+
+        .reservation-cards-container::-webkit-scrollbar-thumb {
+            background-color: #3788D8; /* Color of the scrollbar thumb */
+            border-radius: 5px; /* Border radius */
+        }
+
+        /* Shadow Background */
+        .hover-scroll::after {
+            content: ''; /* Empty content */
+            position: absolute; /* Positioning */
+            top: 0; /* Align to the top */
+            left: 0; /* Align to the left */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 10%, rgba(0, 0, 0, 0.5) 100%); /* Gradient background */
+            pointer-events: none; /* Allow clicks to pass through */
+            border-radius: 15px; /* Match the border-radius of the container */
+            transition: opacity 0.3s ease; /* Smooth transition for opacity */
+            opacity: 0; /* Initially hidden */
+        }
+
+        /* Hover Effect */
+        .hover-scroll:hover::after {
+            opacity: 1; /* Show the background on hover */
+        }
+
+        /* Reservation Cards CSS */
+        .reservation-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px 0; /* Adjust padding as needed */
+            z-index: 2; /* Ensure cards are above the shadow background */
+            position: relative; /* Position for z-index */
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            width: 300px; /* Adjust width as needed */
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: #3788D8;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-text {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+    </style> #}

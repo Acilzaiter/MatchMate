@@ -1,0 +1,144 @@
+
+            <div class="col-md-4">
+                <!-- Reservation Details -->
+                <div id="timeSlots" class="reservation-cards-container">
+                    <div class="reservation-cards">
+                        <!-- Time slots will be inserted here dynamically -->
+                        {% for slot in timeSlots %}
+                            <div class="card" data-slot="{{ slot }}">
+                                <div class="card-body">
+                                    <div class="time-slot"><strong>{{ slot }}</strong></div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+<script>
+    // JavaScript to handle slot selection and highlighting
+    $(document).ready(function() {
+        // Event listener for selecting a time slot
+        $(document).on("click", ".time-slot", function() {
+            // Remove the selected-slot class from all slots
+            $(".time-slot").removeClass("selected-slot");
+            // Add the selected-slot class to the clicked slot
+            $(this).addClass("selected-slot");
+        });
+    });
+</script>
+
+<style>
+        .reservation-cards-container {
+        max-height: 600px;
+        overflow-y: auto;
+        padding-right: 15px;
+        position: absolute;
+        right: 20px;
+        top: 0;
+        width: 300px;
+        border-radius: 15px;
+        transition: box-shadow 0.3s ease;
+        }
+
+        .hover-scroll {
+            position: relative; /* Make the container a positioning context for the scrollbar */
+            margin-right: 0;
+            padding-right: 15px;
+            border-radius: 15px;
+            transition: box-shadow 0.3s ease;
+        }
+
+
+        /* Customized Scrollbar */
+        .reservation-cards-container::-webkit-scrollbar {
+        width: 10px;
+        background-color: #f9f9f9;
+        }
+
+        .reservation-cards-container::-webkit-scrollbar-thumb {
+            background-color: #3788D8;
+            border-radius: 5px;
+        }
+        /* Shadow Background */
+        .hover-scroll::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 100%; /* Align to the right side of the container */
+        width: 15px; /* Set the width of the shadow background */
+        height: 100%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 10%, rgba(0, 0, 0, 0.5) 100%);
+        pointer-events: none;
+        border-radius: 0 15px 15px 0; /* Adjust border-radius */
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        }
+
+        /* Hover Effect */
+        .hover-scroll:hover::after {
+            opacity: 1; /* Show the background on hover */
+        }
+
+        /* Reservation Cards CSS */
+        .reservation-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 20px 0;
+        z-index: 2;
+        position: relative;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            width: 300px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .card-header {
+            background-color: #3788D8;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-text {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .hover-scroll {
+            position: relative;
+            margin-right: 335px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .selected-slot {
+        background-color: lightblue;
+        animation: highlight 1s infinite alternate; /* Add animation to the selected slot */
+        }
+
+        @keyframes highlight {
+            from {
+                background-color: lightgreen; /* Initial color */
+            }
+            to {
+                background-color: #87CEEB; /* Highlighted color */
+            }
+        }
+</style>

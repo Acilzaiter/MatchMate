@@ -1,0 +1,241 @@
+{# base.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatchMate</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Images/Ball.ico') }}">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}">
+
+    {% block stylesheets %}
+    <style>
+    /* Add custom styles for sticky navbar */
+    .navbar {
+      position: fixed;
+      width: 96%;
+      top: 0;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+
+    .navbar-scroll {
+      top: -100px; /* Adjust this value as needed */
+    }
+
+    /* Add custom styles for responsive navbar */
+    @media (max-width: 768px) {
+      .navbar-items {
+        display: none;
+        position: absolute;
+        top: 60px; /* Adjust this value as needed */
+        background-color: #f9f9f9;
+        width: 100%;
+        text-align: center;
+      }
+
+      .navbar-items.show {
+        display: block;
+      }
+
+      .navbar-icons {
+        display: none;
+      }
+
+      .navbar .navbar-logo {
+        text-align: center;
+        width: 100%;
+      }
+
+      .navbar .navbar-logo img {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+    }
+  </style>
+    
+    
+    
+    {% endblock %}
+            {{ encore_entry_link_tags('app') }}
+</head>
+<body>
+    {% block body %}
+      <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="{{ asset('Images/logo.png') }}" alt="Logo">
+    </div>
+    <ul class="navbar-items">
+      <li ><a href="#">Home</a></li>
+      <li><a href="#">Reservation</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">Claim</a></li>
+    </ul>
+    <div class="navbar-icons">
+        <img src="{{ asset('Images/panier.png') }}" alt="panier">
+        <img src="{{ asset('Images/utilisateur (1).png') }}" alt="utilisateur">
+      
+    </div>
+  </nav>
+
+ 
+
+  {% block m %}
+    
+    <div class="image-container">
+        <img src="{{ asset('Images/background.png') }}"> 
+
+        <div class="text-overlay">
+            <span>SEARCH BOOK</span>
+            <span>& HAVE FUN</span>
+        </div>
+        <div class="black-div">
+            <div class="content-wrapper">
+                <span>LOOKING FOR FIELD ?</span>
+            </div>
+            <div class="horizontal-container">
+                <div class="vertical-div">
+                  <label for="governorate">Select Governorate:</label>
+                  <select id="governorate" name="governorate">
+                    <option value="governorate1">Governorate 1</option>
+                    <option value="governorate2">Governorate 2</option>
+                    <!-- Add more options as needed -->
+                  </select>
+                </div>
+                
+                <div class="vertical-div">
+                    <button class="search-button">Search
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="additional-div">
+        <div class="how-it-works">
+            <span>How it works</span>
+        </div>
+
+        <div class="horizontal-container">
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step1.png') }}" alt="Image 1">
+                </button>  
+              <div class="vertical-text">
+                <p class="title">Find a Listing</p>
+                <p>Find a space to practice sport and </p>
+                <p>leisure activities</p>
+              </div>
+            </div>
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step2.png') }}" alt="Image 1">
+                </button> 
+              <div class="vertical-text">
+                <p class="title">Set the Date</p>
+                <p>Book Online</p>
+              </div>
+            </div>
+            <div class="horizontal-div">
+                <button class="image-button">
+                    <img src="{{ asset('Images/step3.png') }}" alt="Image 1">
+                </button> 
+              <div class="vertical-text">
+                <p class="title">Move in !</p>
+                <p>Practicing sport and accessing</p> 
+                <p>leisure activities</p>
+              </div>
+            </div>
+          </div>
+    </div>
+   {% endblock %}
+   
+  {% block t %}
+        
+        {% endblock %}
+
+     {% block partners %}  
+    <div class="additional-partners">
+      <div class="horizontal-div1">
+        
+          <img src="{{ asset('Images/tel.png') }}" alt="Partner Logo">
+          <div class="vertical-div1">
+              <h2>Manage your schedule from your Mobile</h2>
+              <p>Download the app to manage your schedule , keep track of your bookings and stay on track with the progress</p>
+              <p>Get the app</p>
+              <img src="images/appstore.png" alt="Image 1">
+              
+          </div>
+      </div>
+
+    <div class="partners-section">
+      <div class="vertical-center">
+          <p class="partners-title">Our Partners</p>
+          <img src="images/esprit.png" alt="Our Partners">
+      </div>
+    </div>
+
+    
+  </div>
+  {% endblock %}
+  
+{% block footer %}
+
+  <footer class="footer">
+    <div class="footer-section">
+        <div class="logo-and-paragraph">
+            <img src="images/logo.png" alt="Footer Logo">
+            <p>Copyrights MiCasa Homes and Properties</p>
+            <p>All rights reserved</p>
+        </div>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Company</h3>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <ul class="footer-list">
+          <h3>Support</h3>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping Information</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+        </ul>
+    </div>
+</footer>
+{% endblock %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Add sticky class to navbar on scroll
+      var prevScrollpos = window.pageYOffset;
+      window.onscroll = function() {
+        var currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+          document.getElementById("navbar").style.top = "0";
+        } else {
+          document.getElementById("navbar").style.top = "-100px"; // Adjust this value as needed
+        }
+        prevScrollpos = currentScrollPos;
+      };
+
+      // Toggle navbar items for responsive design
+      $(".navbar-logo").click(function() {
+        $("#navbar-items").toggleClass("show");
+      });
+    });
+  </script>
+  {% endblock %}
+    {% endblock %}
+    
+ 
+</body>
+</html>

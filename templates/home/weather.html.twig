@@ -1,0 +1,81 @@
+
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<div style="display: flex;">
+    <div style="flex: 1;">
+        <div>
+            <label for="latitude">Latitude:</label>
+            <input id="latitude" type="text" readonly>
+        </div>
+        <div>
+            <label for="longitude">Longitude:</label>
+            <input id="longitude" type="text" readonly>
+        </div>
+    </div>
+    <div style="flex: 2;">
+        <div id="map" style="width: 100%; height: 400px;"></div>
+    </div>
+    <div id="weather-info" style="flex: 1;">
+        <!-- Weather data will be displayed here -->
+    </div>
+</div>
+
+<script>
+    var map;
+    var marker;
+
+    function initMap() {
+        // Initialize the map
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 36.9034, lng: 10.1874}, // Centered at Esprit Tunisia, Ghazela
+            zoom: 14 // Zoom level adjusted to show the location properly
+        });
+
+        // Add click event listener to the map
+        google.maps.event.addListener(map, 'click', function(event) {
+            // Get the latitude and longitude of the clicked location
+            var clickedLocation = event.latLng;
+
+            // Clear previous marker
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // Add marker at the clicked location
+            marker = new google.maps.Marker({
+                position: clickedLocation,
+                map: map
+            });
+
+            // Update input fields with latitude and longitude
+            document.getElementById('latitude').value = clickedLocation.lat();
+            document.getElementById('longitude').value = clickedLocation.lng();
+
+            // Fetch weather data using latitude and longitude
+            var apiKey = 'c55da2255b6d361f889fbaf7c3d4e804';
+            var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + clickedLocation.lat() + '&lon=' + clickedLocation.lng() + '&appid=' + apiKey;
+          fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // Display weather data
+        var weatherInfo = document.getElementById('weather-info');
+        weatherInfo.innerHTML = `
+          <h3>Weather Information</h3>
+            <p><i class="fas fa-thermometer-half"></i> Temperature: ${data.main.temp} K </p>
+            <p><i class="fas fa-tint"></i> Humidity: ${data.main.humidity} %</p>
+            <p>Weather: ${data.weather[0].description}</p>
+            <img src="http://openweathermap.org/img/w/${data.weather[0].icon}.png" alt="Weather Icon">
+        `;
+    })
+    .catch(error => console.error('Error:', error));
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgClXCMDHYkdbbt_7lWCLNVYKhivPdCiM&callback=initMap" async defer></script>
+
+{% endblock %}
+
+

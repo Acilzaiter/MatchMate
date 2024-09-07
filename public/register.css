@@ -1,0 +1,29 @@
+.custom-background {
+    background-color: #e2dcdc; /* Replace with your desired background color */
+    padding: 35px 5px;
+    
+}
+.centered-div {
+    padding-left: 45px;
+   
+    width: 80%;
+   margin : 25px auto ;
+}
+
+.btnn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.btn{
+    background-color: rgb(23, 138, 23);
+    padding: 10px 45px;
+    color: white;
+    width: 35%;
+    margin-bottom: 1000px;
+}
+.login_link{
+    text-decoration: none;
+    color: rgb(68, 66, 66);
+    margin : 10px 0;
+}

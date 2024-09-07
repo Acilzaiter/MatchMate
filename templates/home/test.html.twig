@@ -1,0 +1,58 @@
+
+
+{% block content %}
+
+<div style="display: flex;">
+    <div style="flex: 1;">
+        <div>
+            <label for="latitude">Latitude:</label>
+            <input id="latitude" type="text" readonly>
+        </div>
+        <div>
+            <label for="longitude">Longitude:</label>
+            <input id="longitude" type="text" readonly>
+        </div>
+    </div>
+    <div style="flex: 2;">
+        <div id="map" style="width: 100%; height: 400px;"></div>
+    </div>
+</div>
+
+<script>
+    var map;
+    var marker;
+
+    function initMap() {
+        // Initialize the map
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 36.9034, lng: 10.1874}, // Centered at Esprit Tunisia, Ghazela
+            zoom: 14 // Zoom level adjusted to show the location properly
+        });
+
+        // Add click event listener to the map
+        google.maps.event.addListener(map, 'click', function(event) {
+            // Get the latitude and longitude of the clicked location
+            var clickedLocation = event.latLng;
+
+            // Clear previous marker
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // Add marker at the clicked location
+            marker = new google.maps.Marker({
+                position: clickedLocation,
+                map: map
+            });
+
+            // Update input fields with latitude and longitude
+            document.getElementById('latitude').value = clickedLocation.lat();
+            document.getElementById('longitude').value = clickedLocation.lng();
+
+            // Log latitude and longitude to console
+            console.log('Latitude: ' + clickedLocation.lat() + ', Longitude: ' + clickedLocation.lng());
+        });
+    }
+</script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgClXCMDHYkdbbt_7lWCLNVYKhivPdCiM&callback=initMap" async defer></script>
+{% endblock %}

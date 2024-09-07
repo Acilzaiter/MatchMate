@@ -1,0 +1,101 @@
+{% extends 'home/home.html.twig' %}
+
+{% block m %}
+    
+{% endblock %}
+
+{% block t %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="payment-success">
+    <h1 class="success-title">Thank you for your reservation!</h1>
+    <p class="success-message">We appreciate your interest in booking with us. If you have further questions, please email <a href="mailto:matchmate@gmail.com" class="contact-link">matchmate17@gmail.com</a>.</p>
+    
+    <!-- Add a form for the PDF button and the back button -->
+    <form action="{{ path('generate_receipt_pdf') }}" method="post" class="receipt-form">
+        <input type="hidden" name="paymentId" value="{{ payment.getId() }}">
+        <input type="hidden" name="reservationId" value="{{ reservation.getId() }}">
+        <button type="submit" class="btn btn-primary pdf-button">
+            <i class="fa-solid fa-file-pdf"></i> Download Receipt PDF
+        </button>
+        <a href="{{ path('calendar') }}" class="btn btn-secondary back-button">
+            Back to Calendar
+        </a>
+    </form>
+</div>
+
+<style>
+    .payment-success {
+        text-align: center;
+        margin-top: 50px;
+        animation: fadeInUp 1s ease;
+    }
+
+    .success-title {
+        font-size: 2em;
+        color: #3788D8;
+        margin-bottom: 20px;
+    }
+
+    .success-message {
+        font-size: 1.2em;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    .contact-link {
+        color: #3788D8;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .contact-link:hover {
+        color: #155785;
+    }
+
+    .pdf-button,
+    .back-button {
+        background-color: #3788D8;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-right: 10px; /* Add margin between buttons */
+        text-decoration: none; /* Remove underline */
+    }
+
+    .pdf-button:hover,
+    .back-button:hover {
+        background-color: #155785;
+    }
+
+    .pdf-button .fa {
+        margin-right: 5px;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% block partners %}
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
